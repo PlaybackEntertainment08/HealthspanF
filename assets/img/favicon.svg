@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Healthspan Standard 2027">
+  <rect width="64" height="64" fill="#4E120C"/>
+  <circle cx="32" cy="32" r="27" fill="#F8EED6" stroke="#B8862B" stroke-width="2"/>
+  <circle cx="32" cy="32" r="23" fill="none" stroke="#8E2418" stroke-width="0.9"/>
+  <circle cx="32" cy="32" r="19" fill="none" stroke="#C9A56A" stroke-width="0.9"/>
+  <circle cx="32" cy="32" r="15" fill="none" stroke="#8E2418" stroke-width="0.9"/>
+  <circle cx="32" cy="32" r="11" fill="none" stroke="#C9A56A" stroke-width="0.9"/>
+  <text x="32" y="39.5" text-anchor="middle"
+        font-family="Cinzel, Georgia, serif" font-size="19" font-weight="800" fill="#8E2418">HS</text>
+</svg>

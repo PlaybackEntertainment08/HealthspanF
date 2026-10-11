@@ -1,0 +1,153 @@
+{
+  "slug": "payment.html",
+  "navKey": "delegates",
+  "robots": "noindex,nofollow",
+  "priority": "0.3",
+  "title": "Secure Checkout — Delegate Payment | Delhi 2027",
+  "description": "Complete your delegate registration. Pay by card, UPI, net banking, NEFT or SWIFT. Card details are handled by the gateway and never touch this site.",
+  "crumbs": [
+    [
+      "Delegates",
+      null
+    ],
+    [
+      "Registration",
+      "registration.html"
+    ],
+    [
+      "Checkout",
+      "payment.html"
+    ]
+  ],
+  "pagehead": {
+    "eyebrow": "Step 3 of 4",
+    "h1": "Secure checkout",
+    "lede": "Choose how you would like to pay. Card payments are completed on the gateway’s own PCI-DSS page — this site never sees, stores or transmits your card number."
+  },
+  "ogTitle": "Secure Checkout — Delegate Payment | Delhi 2027"
+}
+---
+<section class="section">
+  <div class="shell">
+    <ol class="stepper" style="list-style:none">
+      <li class="stepper__item" data-state="done"><span class="stepper__n">1</span>Profile created</li>
+      <li class="stepper__item" data-state="done"><span class="stepper__n">2</span>Pass chosen</li>
+      <li class="stepper__item" data-state="current"><span class="stepper__n">3</span>Payment</li>
+      <li class="stepper__item"><span class="stepper__n">4</span>Confirmation &amp; invoice</li>
+    </ol>
+
+    <form class="grid grid--aside" data-validate data-endpoint="/api/payments/create-order" data-on-success="startPayment" novalidate>
+      <div>
+        <fieldset style="border:0;padding:0;margin:0 0 2rem">
+          <legend class="eyebrow" style="padding:0">Choose a payment method</legend>
+          <div class="paymethods">
+            <label class="paymethod">
+              <input type="radio" name="paymethod" value="card" checked>
+              <span>
+                <span class="paymethod__name">Credit or debit card</span>
+                <span class="paymethod__note">Processed on the gateway’s secure page with 3-D Secure. International cards accepted.</span>
+                <span class="paymethod__logos"><span>Visa</span><span>Mastercard</span><span>RuPay</span><span>Amex</span><span>Diners</span></span>
+              </span>
+            </label>
+
+            <label class="paymethod">
+              <input type="radio" name="paymethod" value="upi">
+              <span>
+                <span class="paymethod__name">UPI</span>
+                <span class="paymethod__note">Scan the QR or approve the collect request in your UPI app. Indian delegates only.</span>
+                <span class="paymethod__logos"><span>UPI</span><span>GPay</span><span>PhonePe</span><span>Paytm</span><span>BHIM</span></span>
+              </span>
+            </label>
+
+            <label class="paymethod">
+              <input type="radio" name="paymethod" value="netbanking">
+              <span>
+                <span class="paymethod__name">Net banking</span>
+                <span class="paymethod__note">All major Indian banks. You are returned here once the bank confirms.</span>
+              </span>
+            </label>
+
+            <label class="paymethod">
+              <input type="radio" name="paymethod" value="neft">
+              <span>
+                <span class="paymethod__name">NEFT / RTGS / SWIFT transfer</span>
+                <span class="paymethod__note">We email a proforma invoice with the account details. Your place is held for seven days pending the transfer.</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div data-bank-panel hidden style="margin-bottom:2rem">
+          <div class="frame">
+            <p class="eyebrow">Beneficiary details</p>
+            <dl class="deflist" style="margin-top:.75rem">
+              <div class="deflist__row"><dt>Account name</dt><dd>International Association of Stemcell &amp; Regenerative Medicine</dd></div>
+              <div class="deflist__row"><dt>Account no.</dt><dd><span class="tabular">Issued on your proforma invoice</span></dd></div>
+              <div class="deflist__row"><dt>IFSC</dt><dd>Issued on your proforma invoice</dd></div>
+              <div class="deflist__row"><dt>SWIFT / BIC</dt><dd>Issued on your proforma invoice (international transfers)</dd></div>
+              <div class="deflist__row"><dt>Reference</dt><dd>Your delegate reference, which appears on the invoice</dd></div>
+            </dl>
+            <div class="notice notice--alert" style="margin-top:1.25rem">
+              <div><strong class="notice__title">Verify before you transfer</strong>Account details are issued only on an invoice sent from an <strong>@iasrmglobal.org</strong> address. If anyone sends you different details by message or phone, do not pay — call the secretariat on +91 98104 18415 first.</div>
+            </div>
+            <p class="small" style="margin-top:1rem">Email the UTR or SWIFT reference to <a href="mailto:accounts@iasrmglobal.org">accounts@iasrmglobal.org</a> once the transfer is made. Bank charges are borne by the remitter.</p>
+          </div>
+        </div>
+
+        <fieldset style="border:0;padding:0;margin:0 0 2rem">
+          <legend class="eyebrow" style="padding:0">Billing details</legend>
+          <div class="field-row">
+            <div class="field"><label class="field__label" for="p-name">Name on the invoice <span class="req">*</span></label><input class="input" id="p-name" name="billingName" data-rule="name" required autocomplete="name"><span class="field__error"></span></div>
+            <div class="field"><label class="field__label" for="p-email">Email for the invoice <span class="req">*</span></label><input class="input" type="email" id="p-email" name="billingEmail" data-rule="email" required autocomplete="email"><span class="field__error"></span></div>
+          </div>
+          <div class="field"><label class="field__label" for="p-addr">Billing address <span class="req">*</span></label><textarea class="textarea" id="p-addr" name="billingAddress" required style="min-height:90px" autocomplete="street-address"></textarea><span class="field__error"></span></div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label" for="p-country">Country <span class="req">*</span></label>
+              <select class="select" id="p-country" name="country" required autocomplete="country-name">
+                <option value="IN" selected>India</option><option>United States</option><option>United Kingdom</option>
+                <option>United Arab Emirates</option><option>Singapore</option><option>Australia</option>
+                <option>Canada</option><option>Germany</option><option>Japan</option><option>Other</option>
+              </select>
+            </div>
+            <div class="field"><label class="field__label" for="p-gstin">GSTIN (for input credit)</label><input class="input" id="p-gstin" name="gstin" placeholder="22AAAAA0000A1Z5"><span class="field__hint">Indian businesses claiming input credit only.</span></div>
+          </div>
+        </fieldset>
+
+        <label class="check"><input type="checkbox" name="terms" required data-msg="Please accept the terms and the refund policy."><span>I have read and accept the <a href="terms.html">terms, cancellation and refund policy</a>. <span class="req">*</span></span></label>
+        <span class="field__error"></span>
+
+        <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin:1.25rem 0"></div>
+
+        <button class="btn btn--primary btn--lg" type="submit" data-pay-cta>Pay securely now</button>
+
+        <p class="securenote">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Secured by TLS. Card data is tokenised by the gateway and is never stored by IASRM.
+        </p>
+      </div>
+
+      <aside>
+        <div class="summary">
+          <p class="eyebrow">Order summary</p>
+          <div data-checkout-summary>
+            <div class="summary__row"><span>Loading your selection…</span><span></span></div>
+          </div>
+          <p class="small" style="margin-top:1rem">Need to change something? <a href="registration.html#configure">Go back to your pass</a>.</p>
+        </div>
+
+        <div class="card card--flat" style="margin-top:1.25rem">
+          <p class="card__meta">What happens next</p>
+          <ul class="pricecard__list">
+            <li>Confirmation email, immediately</li>
+            <li>GST invoice within 48 hours</li>
+            <li>Visa invitation letter on request</li>
+            <li>Hotel confirmed within five working days</li>
+            <li>Abstract submission unlocked</li>
+            <li>Joining instructions, March 2027</li>
+          </ul>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>

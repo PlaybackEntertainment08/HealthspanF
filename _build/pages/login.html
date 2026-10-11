@@ -1,0 +1,168 @@
+{
+  "slug": "login.html",
+  "navKey": "delegates",
+  "priority": "0.9",
+  "title": "Delegate Login & Sign Up | Healthspan Standard 2027",
+  "description": "Sign in to your delegate profile or create one to register for the Delhi summit. Manage your pass, abstracts, invoices, visa letter and hotel in one place.",
+  "crumbs": [
+    [
+      "Delegates",
+      null
+    ],
+    [
+      "Login & Sign Up",
+      "login.html"
+    ]
+  ],
+  "pagehead": {
+    "eyebrow": "The delegate portal",
+    "h1": "Register / Login",
+    "lede": "Create a profile once. Everything after that — your pass, your invoice, your abstract, your visa letter and your hotel — lives in one place."
+  },
+  "ogTitle": "Delegate Login & Sign Up | Healthspan Standard 2027"
+}
+---
+<section class="section">
+  <div class="shell">
+    <div class="authwrap">
+      <!-- ============ AUTH CARD ============ -->
+      <div class="authcard" data-reveal="left">
+        <div data-tabs>
+          <div class="authtabs" role="tablist" aria-label="Sign in or create an account">
+            <button class="authtab" type="button" role="tab" id="tab-signin" aria-controls="panel-signin" aria-selected="true" tabindex="0">Sign in</button>
+            <button class="authtab" type="button" role="tab" id="tab-signup" aria-controls="panel-signup" aria-selected="false" tabindex="-1">Create a profile</button>
+          </div>
+
+          <!-- Sign in -->
+          <div id="panel-signin" role="tabpanel" aria-labelledby="tab-signin" tabindex="0">
+            <p class="small" style="margin-bottom:1.25rem">If you have already created your profile, sign in to continue your registration or manage your booking.</p>
+            <form data-validate data-endpoint="/api/auth/login" data-on-success="afterSignIn" novalidate>
+              <div class="field">
+                <label class="field__label" for="si-email">Email address <span class="req">*</span></label>
+                <input class="input" type="email" id="si-email" name="email" data-rule="email" required autocomplete="email" autocapitalize="off" spellcheck="false">
+                <span class="field__error"></span>
+              </div>
+              <div class="field">
+                <label class="field__label" for="si-pwd">Password <span class="req">*</span></label>
+                <div style="position:relative">
+                  <input class="input" type="password" id="si-pwd" name="password" required autocomplete="current-password" style="padding-right:4.25rem">
+                  <button class="btn btn--sm" type="button" data-toggle-password="si-pwd" aria-label="Show password"
+                          style="position:absolute;right:4px;top:4px;min-height:34px;padding:.3rem .7rem;background:none;border:0;color:var(--crimson);letter-spacing:.08em">Show</button>
+                </div>
+                <span class="field__error"></span>
+              </div>
+
+              <div class="cluster cluster--between" style="margin:.25rem 0 1.25rem">
+                <label class="check" style="margin:0"><input type="checkbox" name="remember"><span class="small">Keep me signed in</span></label>
+                <a class="small" href="#reset">Forgotten your password?</a>
+              </div>
+
+              <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:1rem"></div>
+              <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+            </form>
+          </div>
+
+          <!-- Sign up -->
+          <div id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" tabindex="0" hidden>
+            <p class="small" style="margin-bottom:1.25rem">Creating a profile takes a minute and does not commit you to a pass. You choose and pay for the pass at the next step.</p>
+            <form data-validate data-endpoint="/api/auth/register" data-on-success="afterSignUp" novalidate>
+              <fieldset style="border:0;padding:0;margin:0 0 1.25rem">
+                <legend class="field__label" style="padding:0;margin-bottom:.6rem">Register as <span class="req">*</span></legend>
+                <div class="cluster">
+                  <label class="paymethod" style="flex:1"><input type="radio" name="residency" value="indian" checked><span><span class="paymethod__name">Indian delegate</span><span class="paymethod__note">Billed in ₹ with GST</span></span></label>
+                  <label class="paymethod" style="flex:1"><input type="radio" name="residency" value="international"><span><span class="paymethod__name">International delegate</span><span class="paymethod__note">Billed in USD, visa support</span></span></label>
+                </div>
+              </fieldset>
+
+              <div class="field-row">
+                <div class="field"><label class="field__label" for="su-first">First name <span class="req">*</span></label><input class="input" id="su-first" name="firstName" data-rule="name" required autocomplete="given-name"><span class="field__error"></span></div>
+                <div class="field"><label class="field__label" for="su-last">Last name <span class="req">*</span></label><input class="input" id="su-last" name="lastName" data-rule="name" required autocomplete="family-name"><span class="field__error"></span></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="su-email">Email address <span class="req">*</span></label>
+                <input class="input" type="email" id="su-email" name="email" data-rule="email" required autocomplete="email" autocapitalize="off" spellcheck="false">
+                <span class="field__hint">Your invoice, joining instructions and visa letter are sent here.</span>
+                <span class="field__error"></span>
+              </div>
+              <div class="field">
+                <label class="field__label" for="su-tel">Mobile, with country code <span class="req">*</span></label>
+                <input class="input" type="tel" id="su-tel" name="phone" data-rule="tel" required autocomplete="tel" placeholder="+91 98765 43210">
+                <span class="field__error"></span>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field__label" for="su-pwd">Password <span class="req">*</span></label>
+                  <input class="input" type="password" id="su-pwd" name="password" data-rule="pwd" required autocomplete="new-password">
+                  <span class="field__hint">At least 8 characters, with a letter and a number.</span>
+                  <span class="field__error"></span>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="su-pwd2">Confirm password <span class="req">*</span></label>
+                  <input class="input" type="password" id="su-pwd2" name="passwordConfirm" data-match="su-pwd" required autocomplete="new-password">
+                  <span class="field__error"></span>
+                </div>
+              </div>
+
+              <label class="check"><input type="checkbox" name="professional" required data-msg="This summit is limited to healthcare professionals."><span>I confirm I am a healthcare professional, researcher, trainee or industry delegate. <span class="req">*</span></span></label>
+              <label class="check"><input type="checkbox" name="terms" required data-msg="Please accept the terms and the privacy notice."><span>I accept the <a href="terms.html">terms</a> and the <a href="privacy.html">privacy notice</a>. <span class="req">*</span></span></label>
+
+              <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin:1rem 0"></div>
+              <button class="btn btn--primary btn--block" type="submit">Create my profile</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ ASIDE ============ -->
+      <aside class="authaside" data-reveal="right">
+        <div class="frame frame--plain">
+          <p class="eyebrow">How registration works</p>
+          <ol class="steps" style="margin-top:1rem">
+            <li><span><strong>Create your profile.</strong> Name, email, mobile and whether you are billing in rupees or dollars.</span></li>
+            <li><span><strong>Choose your pass.</strong> Two-day, couple, group, residential, trainee, allied health or accompanying person — plus any add-ons.</span></li>
+            <li><span><strong>Pay.</strong> Card, UPI, net banking or bank transfer. The gateway handles the card; this site never sees it.</span></li>
+            <li><span><strong>You are registered.</strong> GST invoice within 48 hours, visa letter on request, hotel confirmed, abstract submission unlocked.</span></li>
+          </ol>
+        </div>
+
+        <div class="notice">
+          <div><strong class="notice__title">Postgraduate trainees</strong>Upload a letter from your head of department or a current student identity card during registration. The reduced rate is released once it is verified, normally within two working days.</div>
+        </div>
+
+        <div class="notice notice--alert">
+          <div><strong class="notice__title">Beware of unofficial agents</strong>The secretariat never asks for payment through social media or to a personal account. Register only here, or through an invoice sent from an <strong>@iasrmglobal.org</strong> address.</div>
+        </div>
+
+        <div class="card card--flat" id="reset" style="scroll-margin-top:7rem">
+          <p class="card__meta">Forgotten your password</p>
+          <form data-validate data-endpoint="/api/auth/reset" data-success="If that address has a profile, a reset link is on its way. The link is valid for one hour." novalidate style="margin-top:.6rem">
+            <div class="field" style="margin-bottom:.75rem">
+              <label class="field__label" for="rs-email">Email address <span class="req">*</span></label>
+              <input class="input" type="email" id="rs-email" name="email" data-rule="email" required autocomplete="email">
+              <span class="field__error"></span>
+            </div>
+            <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:.75rem"></div>
+            <button class="btn btn--ghost btn--sm btn--block" type="submit">Email me a reset link</button>
+          </form>
+        </div>
+
+        <div class="card card--flat">
+          <p class="card__meta">Need a hand?</p>
+          <p class="card__body">The secretariat answers registration questions within one working day.</p>
+          <p class="card__body"><a href="mailto:info@iasrmglobal.org">info@iasrmglobal.org</a><br><a href="https://wa.me/919810418415" rel="noopener">WhatsApp +91 98104 18415</a></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section section--maroon-deep section--tight">
+  <div class="shell">
+    <div class="grid grid--4" data-reveal-group>
+      <div><p class="stat__num" style="font-size:1.6rem">₹ 51,000</p><p class="stat__label">Early two-day pass</p></div>
+      <div><p class="stat__num" style="font-size:1.6rem">31 Dec 2026</p><p class="stat__label">Early rate closes</p></div>
+      <div><p class="stat__num" style="font-size:1.6rem">31 Jan 2027</p><p class="stat__label">Abstracts &amp; nominations close</p></div>
+      <div><p class="stat__num" style="font-size:1.6rem"><span data-days-left>—</span></p><p class="stat__label">Days to the summit</p></div>
+    </div>
+  </div>
+</section>

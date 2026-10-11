@@ -1,0 +1,258 @@
+{
+  "slug": "dashboard.html",
+  "navKey": "delegates",
+  "robots": "noindex,nofollow",
+  "priority": "0.3",
+  "title": "Delegate Dashboard | Healthspan Standard 2027",
+  "description": "Your registration status, invoices, abstract submissions, visa letter requests, accommodation, Longevity 40 nominations and personal programme.",
+  "crumbs": [
+    [
+      "Delegates",
+      null
+    ],
+    [
+      "Dashboard",
+      "dashboard.html"
+    ]
+  ],
+  "pagehead": {
+    "eyebrow": "The delegate portal",
+    "h1": "Your dashboard",
+    "lede": "Everything about your registration in one place. Signed in as <strong data-delegate-name>delegate</strong> · Reference <strong data-delegate-ref>—</strong>"
+  },
+  "ogTitle": "Delegate Dashboard | Healthspan Standard 2027"
+}
+---
+<section class="section" data-dashboard>
+  <div class="shell">
+    <div class="statusbar">
+      <div>
+        <p class="eyebrow" style="margin-bottom:.3rem">Registration status</p>
+        <p style="margin:0"><span class="chip chip--due">Payment due</span> <span class="small">Your place is held for seven days.</span></p>
+      </div>
+      <a class="btn btn--primary btn--sm" href="payment.html">Complete payment</a>
+    </div>
+
+    <div class="dash">
+      <ul class="dashnav" style="list-style:none">
+        <li><a href="#overview" class="is-active">Overview</a></li>
+        <li><a href="#registration">Registration &amp; pass</a></li>
+        <li><a href="#invoices">Invoices <span class="chip chip--due" style="font-size:.6rem">1 due</span></a></li>
+        <li><a href="#abstracts">My abstracts</a></li>
+        <li><a href="#visa">Visa letter</a></li>
+        <li><a href="#stay">Accommodation</a></li>
+        <li><a href="#nominations">Longevity 40</a></li>
+        <li><a href="#programme">My programme</a></li>
+        <li><a href="#profile">Profile &amp; password</a></li>
+        <li><a href="login.html" data-logout>Sign out</a></li>
+      </ul>
+
+      <div>
+        <!-- OVERVIEW -->
+        <section class="dashpanel is-active" id="overview" aria-label="Overview">
+          <h2 style="font-size:var(--step-3)">Overview</h2>
+          <div class="grid grid--2" style="margin-top:1.5rem">
+            <div class="card card--flat"><p class="card__meta">Countdown</p><p class="h3" style="color:var(--crimson)"><span data-days-left>—</span> days</p><p class="card__body">until 10 April 2027, New Delhi.</p></div>
+            <div class="card card--flat"><p class="card__meta">Your pass</p><p class="h4">Two-Day Delegate Pass</p><p class="card__body">Early rate · one delegate · both days</p></div>
+          </div>
+
+          <h3 style="font-size:var(--step-2);margin-top:2rem">What still needs you</h3>
+          <div class="stack stack--sm" style="margin-top:1rem">
+            <div class="notice notice--alert"><div><strong class="notice__title">Payment outstanding</strong>Your pass is reserved for seven days from the date it was chosen. <a href="payment.html">Complete payment</a> to confirm it at the early rate.</div></div>
+            <div class="notice"><div><strong class="notice__title">Abstract deadline — 31 January 2027</strong>The rapid-fire rounds are filled from submitted abstracts. <a href="#abstracts">Submit one</a>.</div></div>
+            <div class="notice"><div><strong class="notice__title">Dietary preference not set</strong>Tell us before 1 March 2027 so the caterer can plan. <a href="#profile">Update your profile</a>.</div></div>
+          </div>
+
+          <h3 style="font-size:var(--step-2);margin-top:2rem">Key dates</h3>
+          <dl class="deflist" style="margin-top:.75rem">
+            <div class="deflist__row"><dt>31 Dec 2026</dt><dd>Early rate closes</dd></div>
+            <div class="deflist__row"><dt>31 Jan 2027</dt><dd>Abstracts and Longevity 40 nominations close</dd></div>
+            <div class="deflist__row"><dt>20 Feb 2027</dt><dd>Abstract decisions returned</dd></div>
+            <div class="deflist__row"><dt>25 Mar 2027</dt><dd>Final slides due from speakers</dd></div>
+            <div class="deflist__row"><dt>10 – 11 Apr 2027</dt><dd>The summit, the honours and the Charter</dd></div>
+          </dl>
+        </section>
+
+        <!-- REGISTRATION -->
+        <section class="dashpanel" id="registration" aria-label="Registration and pass">
+          <h2 style="font-size:var(--step-3)">Registration &amp; pass</h2>
+          <dl class="deflist" style="margin-top:1.25rem">
+            <div class="deflist__row"><dt>Delegate</dt><dd data-delegate-name>—</dd></div>
+            <div class="deflist__row"><dt>Reference</dt><dd class="tabular" data-delegate-ref>—</dd></div>
+            <div class="deflist__row"><dt>Email</dt><dd data-delegate-email>—</dd></div>
+            <div class="deflist__row"><dt>Pass</dt><dd>Two-Day Delegate Pass · early rate</dd></div>
+            <div class="deflist__row"><dt>Add-ons</dt><dd>None selected</dd></div>
+            <div class="deflist__row"><dt>Status</dt><dd><span class="chip chip--due">Payment due</span></dd></div>
+          </dl>
+          <div class="cluster" style="margin-top:1.5rem">
+            <a class="btn btn--primary" href="payment.html">Complete payment</a>
+            <a class="btn btn--ghost" href="registration.html#configure">Change my pass</a>
+          </div>
+          <p class="small" style="margin-top:1.25rem">A registration may be transferred to a colleague at no charge until 31 March 2027 — write to the secretariat with both names. See the <a href="terms.html">cancellation policy</a>.</p>
+        </section>
+
+        <!-- INVOICES -->
+        <section class="dashpanel" id="invoices" aria-label="Invoices">
+          <h2 style="font-size:var(--step-3)">Invoices &amp; receipts</h2>
+          <div class="table-wrap" style="margin-top:1.25rem">
+            <table class="table">
+              <thead><tr><th scope="col">Document</th><th scope="col">Date</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Action</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Proforma invoice</th><td>On issue</td><td class="tabular">₹ 60,180</td><td><span class="chip chip--due">Unpaid</span></td><td><a href="payment.html">Pay now</a></td></tr>
+                <tr><td colspan="5" class="small">GST invoices appear here within 48 hours of payment and remain downloadable until 31 December 2027.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="frame frame--plain" style="margin-top:1.5rem">
+            <p class="eyebrow">Need the invoice in a company name?</p>
+            <form data-validate data-endpoint="/api/invoices/update" data-success="Your invoicing details have been updated. A revised invoice will be issued within 48 hours." novalidate>
+              <div class="field-row">
+                <div class="field"><label class="field__label" for="inv-name">Billing entity</label><input class="input" id="inv-name" name="entity"></div>
+                <div class="field"><label class="field__label" for="inv-gst">GSTIN</label><input class="input" id="inv-gst" name="gstin" placeholder="22AAAAA0000A1Z5"></div>
+              </div>
+              <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:.75rem"></div>
+              <button class="btn btn--ghost btn--sm" type="submit">Update invoicing details</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ABSTRACTS -->
+        <section class="dashpanel" id="abstracts" aria-label="My abstracts">
+          <h2 style="font-size:var(--step-3)">My abstracts</h2>
+          <p class="lede" style="margin-top:.75rem">You have no submissions yet. Submissions close 31 January 2027; decisions are returned by 20 February.</p>
+          <form class="frame" style="margin-top:1.5rem" data-validate data-endpoint="/api/abstracts/create" data-success="Your abstract has been received. You will get an acknowledgement by email with its submission number." novalidate>
+            <p class="eyebrow">Submit an abstract</p>
+            <div class="field-row">
+              <div class="field">
+                <label class="field__label" for="ab-cat">Category <span class="req">*</span></label>
+                <select class="select" id="ab-cat" name="category" required>
+                  <option value="">Choose a category…</option>
+                  <option>Rapid-Fire Round I · Measuring Ageing in the Real Clinic</option>
+                  <option>Rapid-Fire Round II · The Indian Plate</option>
+                  <option>Rapid-Fire Round III · Regenerative Practice: Cases, Complications &amp; Consent</option>
+                  <option>Rapid-Fire Round IV · Traditions Under the Evidence Lens</option>
+                  <option>Rapid-Fire Round V · Women’s Healthspan</option>
+                  <option>E-Poster Showcase</option>
+                  <option>Video Showcase</option>
+                  <option>Allied Health &amp; Nursing Oral</option>
+                  <option>Research Excellence Award paper</option>
+                </select>
+                <span class="field__error"></span>
+              </div>
+              <div class="field">
+                <label class="field__label" for="ab-tier">Highest evidence tier claimed <span class="req">*</span></label>
+                <select class="select" id="ab-tier" name="tier" required>
+                  <option value="">Choose a tier…</option>
+                  <option>Tier I · Human randomised trial</option>
+                  <option>Tier II · Human observational</option>
+                  <option>Tier III · Animal</option>
+                  <option>Tier IV · Mechanism alone</option>
+                </select>
+                <span class="field__error"></span>
+              </div>
+            </div>
+            <div class="field"><label class="field__label" for="ab-title">Title <span class="req">*</span></label><input class="input" id="ab-title" name="title" required maxlength="160"><span class="field__hint">Up to 160 characters.</span><span class="field__error"></span></div>
+            <div class="field"><label class="field__label" for="ab-body">Structured abstract <span class="req">*</span></label><textarea class="textarea" id="ab-body" name="body" required placeholder="Background · Methods · Results · Conclusion"></textarea><span class="field__hint">Up to 300 words. Results must contain numbers.</span><span class="field__error"></span></div>
+            <div class="field"><label class="field__label" for="ab-coi">Declaration of interests <span class="req">*</span></label><textarea class="textarea" id="ab-coi" name="coi" required style="min-height:90px" placeholder="Equity, advisory roles, speaking fees, clinic ownership — or ‘none’."></textarea><span class="field__error"></span></div>
+            <label class="check"><input type="checkbox" name="houserule" required data-msg="The house rule is a condition of presenting."><span>I accept the house rule: every slide making an empirical claim will carry its evidence tier. <span class="req">*</span></span></label>
+            <span class="field__error"></span>
+            <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin:1rem 0"></div>
+            <button class="btn btn--primary" type="submit">Submit abstract</button>
+          </form>
+        </section>
+
+        <!-- VISA -->
+        <section class="dashpanel" id="visa" aria-label="Visa letter">
+          <h2 style="font-size:var(--step-3)">Visa invitation letter</h2>
+          <p class="lede" style="margin-top:.75rem">International delegates may request an invitation letter and Ministry approval support once payment is confirmed.</p>
+          <form class="frame" style="margin-top:1.5rem" data-validate data-endpoint="/api/visa/request" data-success="Your request is with the secretariat. Invitation letters are issued within five working days; Ministry approvals take longer and are normally received about two months before the summit." novalidate>
+            <p class="eyebrow">Request a letter</p>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="v-name">Name exactly as in your passport <span class="req">*</span></label><input class="input" id="v-name" name="passportName" data-rule="name" required><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="v-nat">Nationality <span class="req">*</span></label><input class="input" id="v-nat" name="nationality" required><span class="field__error"></span></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="v-dob">Date of birth <span class="req">*</span></label><input class="input" type="date" id="v-dob" name="dob" required><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="v-pob">Place of birth <span class="req">*</span></label><input class="input" id="v-pob" name="placeOfBirth" required><span class="field__error"></span></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="v-pno">Passport number <span class="req">*</span></label><input class="input" id="v-pno" name="passportNo" required><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="v-pexp">Passport expiry <span class="req">*</span></label><input class="input" type="date" id="v-pexp" name="passportExpiry" required><span class="field__hint">Must be valid six months beyond travel.</span><span class="field__error"></span></div>
+            </div>
+            <div class="field"><label class="field__label" for="v-auth">Issuing authority / place of issue <span class="req">*</span></label><input class="input" id="v-auth" name="issuingAuthority" required><span class="field__error"></span></div>
+            <div class="field"><label class="field__label" for="v-aff">Affiliation and designation <span class="req">*</span></label><input class="input" id="v-aff" name="affiliation" required><span class="field__error"></span></div>
+            <label class="filefield" style="margin-bottom:1rem"><input type="file" name="passportScan" accept=".pdf,.jpg,.jpeg,.png"><span><strong>Upload a scan of your passport bio page</strong><br><span class="small">PDF, JPG or PNG, up to 5 MB.</span></span></label>
+            <label class="filefield" style="margin-bottom:1rem"><input type="file" name="cv" accept=".pdf,.doc,.docx"><span><strong>Upload a short CV</strong><br><span class="small">PDF or Word, up to 5 MB.</span></span></label>
+            <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:1rem"></div>
+            <button class="btn btn--primary" type="submit">Request invitation letter</button>
+          </form>
+          <p class="small" style="margin-top:1.25rem">Full guidance on the e-Business visa (e-B5V) route is on the <a href="visa.html">visa &amp; travel page</a>.</p>
+        </section>
+
+        <!-- STAY -->
+        <section class="dashpanel" id="stay" aria-label="Accommodation">
+          <h2 style="font-size:var(--step-3)">Accommodation</h2>
+          <p class="lede" style="margin-top:.75rem">You have not booked a residential package. Rooms at partner hotels are released in order of payment received.</p>
+          <div class="cluster" style="margin-top:1.5rem">
+            <a class="btn btn--primary" href="registration.html#configure">Add a residential package</a>
+            <a class="btn btn--ghost" href="accommodation.html">See the partner hotels</a>
+          </div>
+        </section>
+
+        <!-- NOMINATIONS -->
+        <section class="dashpanel" id="nominations" aria-label="Longevity 40 nominations">
+          <h2 style="font-size:var(--step-3)">Longevity 40</h2>
+          <p class="lede" style="margin-top:.75rem">You have made no nominations. Nominations close 31 January 2027. There is no entry fee, and you may nominate in more than one category.</p>
+          <div class="cluster" style="margin-top:1.5rem">
+            <a class="btn btn--primary" href="nominate.html">Nominate a colleague</a>
+            <a class="btn btn--ghost" href="longevity-40.html#categories">The eleven categories</a>
+          </div>
+        </section>
+
+        <!-- PROGRAMME -->
+        <section class="dashpanel" id="programme" aria-label="My programme">
+          <h2 style="font-size:var(--step-3)">My programme</h2>
+          <p class="lede" style="margin-top:.75rem">Hall I and Hall II run in parallel on Day Two. Choose where you will be and the delegate app will remind you.</p>
+          <div class="grid grid--2" style="margin-top:1.5rem">
+            <div class="card card--flat"><p class="card__meta">Day One · Sat 10 April</p><p class="card__body">Sessions I–VI, Panel I, and the Longevity 40 Honours Ceremony &amp; Gala Dinner from 18:15.</p><p style="margin-top:.6rem"><a class="linkarrow" href="programme.html">See Day One</a></p></div>
+            <div class="card card--flat"><p class="card__meta">Day Two · Sun 11 April</p><p class="card__body">Sessions VII–XI in Hall I, five rapid-fire rounds in Hall II, Panels II and III, and the adoption of the Charter.</p><p style="margin-top:.6rem"><a class="linkarrow" href="rapid-fire.html">See Hall II</a></p></div>
+          </div>
+          <p class="small" style="margin-top:1.25rem">The delegate app opens to registered delegates in March 2027.</p>
+        </section>
+
+        <!-- PROFILE -->
+        <section class="dashpanel" id="profile" aria-label="Profile and password">
+          <h2 style="font-size:var(--step-3)">Profile &amp; password</h2>
+          <form class="frame" style="margin-top:1.25rem" data-validate data-endpoint="/api/profile/update" data-success="Your profile has been updated." novalidate>
+            <p class="eyebrow">Your details</p>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="pf-first">First name <span class="req">*</span></label><input class="input" id="pf-first" name="firstName" data-rule="name" required autocomplete="given-name"><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="pf-last">Last name <span class="req">*</span></label><input class="input" id="pf-last" name="lastName" data-rule="name" required autocomplete="family-name"><span class="field__error"></span></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="pf-tel">Mobile <span class="req">*</span></label><input class="input" type="tel" id="pf-tel" name="phone" data-rule="tel" required autocomplete="tel"><span class="field__error"></span></div>
+              <div class="field">
+                <label class="field__label" for="pf-diet">Dietary requirement</label>
+                <select class="select" id="pf-diet" name="diet"><option>Vegetarian</option><option>Jain</option><option>Vegan</option><option>Non-vegetarian</option><option>Halal</option><option>Other</option></select>
+              </div>
+            </div>
+            <div class="field"><label class="field__label" for="pf-access">Access requirements</label><textarea class="textarea" id="pf-access" name="access" style="min-height:90px" placeholder="Step-free access, seating, hearing loop, anything else we should arrange."></textarea></div>
+            <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:1rem"></div>
+            <button class="btn btn--primary" type="submit">Save profile</button>
+          </form>
+
+          <form class="frame" style="margin-top:1.5rem" data-validate data-endpoint="/api/auth/change-password" data-success="Your password has been changed. You remain signed in on this device only." novalidate>
+            <p class="eyebrow">Change your password</p>
+            <div class="field"><label class="field__label" for="pw-old">Current password <span class="req">*</span></label><input class="input" type="password" id="pw-old" name="currentPassword" required autocomplete="current-password"><span class="field__error"></span></div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="pw-new">New password <span class="req">*</span></label><input class="input" type="password" id="pw-new" name="newPassword" data-rule="pwd" required autocomplete="new-password"><span class="field__hint">At least 8 characters, with a letter and a number.</span><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="pw-new2">Confirm new password <span class="req">*</span></label><input class="input" type="password" id="pw-new2" name="newPasswordConfirm" data-match="pw-new" required autocomplete="new-password"><span class="field__error"></span></div>
+            </div>
+            <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:1rem"></div>
+            <button class="btn btn--ghost" type="submit">Change password</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>

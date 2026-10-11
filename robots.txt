@@ -1,0 +1,8 @@
+# The Healthspan Standard 2027
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /payment.html
+Disallow: /_build/
+
+Sitemap: https://healthspanstandard.org/sitemap.xml

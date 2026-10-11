@@ -1,0 +1,29 @@
+{
+  "name": "The Healthspan Standard 2027 — Delhi",
+  "short_name": "Healthspan 2027",
+  "description": "A Constitution for Longevity & Regenerative Medicine. Delhi, 10–11 April 2027.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F0E1",
+  "theme_color": "#4E120C",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

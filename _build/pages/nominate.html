@@ -1,0 +1,140 @@
+{
+  "slug": "nominate.html",
+  "navKey": "l40",
+  "priority": "0.8",
+  "title": "Nominate for the Longevity 40 — Free and Open",
+  "description": "Nominate a colleague for the inaugural Longevity 40 honours in Delhi. Eleven categories, no entry fee, open to anyone. Nominations close 31 January 2027.",
+  "crumbs": [
+    [
+      "Longevity 40",
+      "longevity-40.html"
+    ],
+    [
+      "Nominate",
+      "nominate.html"
+    ]
+  ],
+  "pagehead": {
+    "eyebrow": "Nominations are open",
+    "h1": "Nominate a colleague",
+    "lede": "Anyone may nominate, and it costs nothing. You do not have to be a delegate, and you may nominate as many people as you believe deserve it."
+  },
+  "ogTitle": "Nominate for the Longevity 40 — Free and Open"
+}
+---
+<section class="section">
+  <div class="shell">
+    <div class="grid grid--aside">
+      <div data-reveal="left">
+        <form class="frame" data-validate data-endpoint="/api/longevity40/nominate" data-success="Your nomination has been received. We will email you an acknowledgement, and will contact the referees you named. The panel’s decisions are announced on 10 April 2027." novalidate>
+          <fieldset style="border:0;padding:0;margin:0 0 1.75rem">
+            <legend class="eyebrow" style="padding:0">1 · Who you are nominating</legend>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="n-name">Full name of the nominee <span class="req">*</span></label><input class="input" id="n-name" name="nomineeName" data-rule="name" required><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="n-org">Institution or organisation <span class="req">*</span></label><input class="input" id="n-org" name="nomineeOrg" required><span class="field__error"></span></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="n-email">Nominee’s email <span class="req">*</span></label><input class="input" type="email" id="n-email" name="nomineeEmail" data-rule="email" required><span class="field__hint">Used only to confirm they exist and are willing to be considered.</span><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="n-country">Country <span class="req">*</span></label><input class="input" id="n-country" name="nomineeCountry" required value="India"><span class="field__error"></span></div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="n-cat">Category <span class="req">*</span></label>
+              <select class="select" id="n-cat" name="category" required>
+                <option value="">Choose a category…</option>
+                <option>Clinical Excellence in Regenerative Medicine</option>
+                <option>Patient Outcomes &amp; Safety</option>
+                <option>Education &amp; Mentorship</option>
+                <option>Access &amp; Community Practice</option>
+                <option>Emerging Practitioner of the Year</option>
+                <option>Author of the Year</option>
+                <option>Scientist of the Year</option>
+                <option>Researcher of the Year</option>
+                <option>Innovator of the Year</option>
+                <option>Company of the Year</option>
+                <option>Manufacturing &amp; Product Excellence</option>
+              </select>
+              <span class="field__hint">If more than one fits, choose the strongest. The panel may move a nomination.</span>
+              <span class="field__error"></span>
+            </div>
+          </fieldset>
+
+          <fieldset style="border:0;padding:0;margin:0 0 1.75rem">
+            <legend class="eyebrow" style="padding:0">2 · Why</legend>
+            <div class="field">
+              <label class="field__label" for="n-case">The case for them <span class="req">*</span></label>
+              <textarea class="textarea" id="n-case" name="citation" required style="min-height:190px" placeholder="What did they do, over what period, and what changed because of it? Specifics beat adjectives — a registry started, a complication rate published, a trial that reported a negative result, a trainee who went further than they did."></textarea>
+              <span class="field__hint">Up to 400 words. The panel reads this before anything else.</span>
+              <span class="field__error"></span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="n-evidence">Supporting links</label>
+              <textarea class="textarea" id="n-evidence" name="evidence" style="min-height:90px" placeholder="Publications, registry entries, institutional pages, trial registrations — one per line."></textarea>
+            </div>
+            <label class="filefield"><input type="file" name="cv" accept=".pdf,.doc,.docx"><span><strong>Optional: the nominee’s CV or a one-page summary</strong><br><span class="small">PDF or Word, up to 5 MB.</span></span></label>
+          </fieldset>
+
+          <fieldset style="border:0;padding:0;margin:0 0 1.75rem">
+            <legend class="eyebrow" style="padding:0">3 · Two referees</legend>
+            <p class="small" style="margin-bottom:1rem">Both are contacted independently. A nomination with no reachable referee does not proceed to scoring.</p>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="r1-name">Referee one — name <span class="req">*</span></label><input class="input" id="r1-name" name="referee1Name" data-rule="name" required><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="r1-email">Referee one — email <span class="req">*</span></label><input class="input" type="email" id="r1-email" name="referee1Email" data-rule="email" required><span class="field__error"></span></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="r2-name">Referee two — name <span class="req">*</span></label><input class="input" id="r2-name" name="referee2Name" data-rule="name" required><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="r2-email">Referee two — email <span class="req">*</span></label><input class="input" type="email" id="r2-email" name="referee2Email" data-rule="email" required><span class="field__error"></span></div>
+            </div>
+          </fieldset>
+
+          <fieldset style="border:0;padding:0;margin:0 0 1.5rem">
+            <legend class="eyebrow" style="padding:0">4 · About you</legend>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="y-name">Your name <span class="req">*</span></label><input class="input" id="y-name" name="nominatorName" data-rule="name" required autocomplete="name"><span class="field__error"></span></div>
+              <div class="field"><label class="field__label" for="y-email">Your email <span class="req">*</span></label><input class="input" type="email" id="y-email" name="nominatorEmail" data-rule="email" required autocomplete="email"><span class="field__error"></span></div>
+            </div>
+            <div class="field"><label class="field__label" for="y-rel">Your relationship to the nominee <span class="req">*</span></label><input class="input" id="y-rel" name="relationship" required placeholder="Colleague, former trainee, co-author, patient advocate, none…"><span class="field__error"></span></div>
+            <label class="check"><input type="checkbox" name="selfNomination"><span>This is a self-nomination.</span></label>
+            <label class="check"><input type="checkbox" name="noInterest" required data-msg="Please confirm this declaration."><span>I have no financial interest in the nominee’s practice or company, or I have described it in the case above. <span class="req">*</span></span></label>
+            <label class="check"><input type="checkbox" name="privacy" required data-msg="Please accept the privacy notice."><span>I accept the <a href="privacy.html">privacy notice</a>, and understand the nominee and referees will be contacted. <span class="req">*</span></span></label>
+            <span class="field__error"></span>
+          </fieldset>
+
+          <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:1.25rem"></div>
+          <button class="btn btn--primary btn--lg btn--block" type="submit">Submit nomination</button>
+          <p class="securenote">Free, at every stage. Nominations close 31 January 2027, 23:59 IST.</p>
+        </form>
+      </div>
+
+      <aside class="stack stack--lg" data-reveal="right">
+        <div class="frame frame--plain">
+          <p class="eyebrow">Before you write</p>
+          <p>The panel reads several hundred of these. What distinguishes a strong nomination is not warmth but specificity.</p>
+          <ul class="pricecard__list" style="margin-top:.75rem">
+            <li><strong>Name the thing they did.</strong> A registry, a protocol, a trial, a clinic in a district town.</li>
+            <li><strong>Say over what period.</strong> Sustained work scores above a single achievement.</li>
+            <li><strong>Say what changed.</strong> For whom, and how you know.</li>
+            <li><strong>Include the inconvenient part.</strong> A nominee who published their complication rate is stronger, not weaker, for it.</li>
+          </ul>
+        </div>
+
+        <div class="notice">
+          <div><strong class="notice__title">There is no entry fee</strong>Not for the nomination, not for the shortlist, not for the ceremony. Honourees attend the summit free and are not charged for the citation or the dinner.</div>
+        </div>
+
+        <div class="card card--flat">
+          <p class="card__meta">What happens next</p>
+          <ol class="steps" style="margin-top:.75rem;gap:.75rem">
+            <li><span>Acknowledgement by email, immediately.</span></li>
+            <li><span>Eligibility screen by the secretariat.</span></li>
+            <li><span>Both referees contacted, February 2027.</span></li>
+            <li><span>Independent scoring by the panel.</span></li>
+            <li><span>Honourees told in confidence, March 2027.</span></li>
+            <li><span>Citations read from the stage, 10 April 2027.</span></li>
+          </ol>
+        </div>
+
+        <a class="btn btn--ghost btn--block" href="longevity-40.html">How the panel works</a>
+      </aside>
+    </div>
+  </div>
+</section>

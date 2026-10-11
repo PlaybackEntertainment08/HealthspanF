@@ -1,0 +1,108 @@
+{
+  "slug": "contact.html",
+  "navKey": "delegates",
+  "priority": "0.7",
+  "title": "Contact the Secretariat | Healthspan Standard 2027",
+  "description": "Reach the conference secretariat in New Delhi about registration, abstracts, visa letters, accommodation, sponsorship or press. Answered within one working day.",
+  "crumbs": [
+    [
+      "Delegates",
+      null
+    ],
+    [
+      "Contact",
+      "contact.html"
+    ]
+  ],
+  "pagehead": {
+    "eyebrow": "Conference secretariat",
+    "h1": "Contact us",
+    "lede": "One inbox, answered within one working day, Monday to Friday, 10:00–18:00 IST."
+  },
+  "jsonld": [
+    {
+      "@type": "ContactPage",
+      "name": "Contact the Healthspan Standard 2027 secretariat",
+      "mainEntity": {
+        "@id": "https://healthspanstandard.org/#organisation"
+      }
+    }
+  ],
+  "ogTitle": "Contact the Secretariat | Healthspan Standard 2027"
+}
+---
+<section class="section">
+  <div class="shell">
+    <div class="grid grid--aside">
+      <div data-reveal="left">
+        <form class="frame" data-validate data-endpoint="/api/contact" data-success="Thank you — your message is with the secretariat. We answer within one working day; if it is urgent, message us on WhatsApp as well." novalidate>
+          <p class="eyebrow">Send a message</p>
+          <div class="field-row">
+            <div class="field"><label class="field__label" for="c-name">Your name <span class="req">*</span></label><input class="input" id="c-name" name="name" data-rule="name" required autocomplete="name"><span class="field__error"></span></div>
+            <div class="field"><label class="field__label" for="c-email">Email <span class="req">*</span></label><input class="input" type="email" id="c-email" name="email" data-rule="email" required autocomplete="email"><span class="field__error"></span></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label class="field__label" for="c-tel">Phone</label><input class="input" type="tel" id="c-tel" name="phone" data-rule="tel" autocomplete="tel" placeholder="+91 98765 43210"><span class="field__error"></span></div>
+            <div class="field">
+              <label class="field__label" for="c-topic">What is it about? <span class="req">*</span></label>
+              <select class="select" id="c-topic" name="topic" required>
+                <option value="">Choose a topic…</option>
+                <option>Registration &amp; payment</option>
+                <option>Group booking (ten or more)</option>
+                <option>Abstracts &amp; presentations</option>
+                <option>Visa letter &amp; Ministry approval</option>
+                <option>Accommodation</option>
+                <option>Longevity 40 nominations</option>
+                <option>Sponsorship &amp; exhibition</option>
+                <option>Press &amp; media</option>
+                <option>Accessibility</option>
+                <option>Something else</option>
+              </select>
+              <span class="field__error"></span>
+            </div>
+          </div>
+          <div class="field"><label class="field__label" for="c-ref">Delegate reference, if you have one</label><input class="input" id="c-ref" name="reference" placeholder="HS27-123456"><span class="field__hint">It is on your confirmation email and in your dashboard. Quoting it gets you a faster answer.</span></div>
+          <div class="field"><label class="field__label" for="c-msg">Your message <span class="req">*</span></label><textarea class="textarea" id="c-msg" name="message" required style="min-height:170px"></textarea><span class="field__error"></span></div>
+          <label class="check"><input type="checkbox" name="privacy" required data-msg="Please accept the privacy notice."><span>I accept the <a href="privacy.html">privacy notice</a> and consent to being contacted about this enquiry. <span class="req">*</span></span></label>
+          <span class="field__error"></span>
+          <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin:1.25rem 0"></div>
+          <button class="btn btn--primary btn--block" type="submit">Send message</button>
+        </form>
+      </div>
+
+      <aside class="stack stack--lg" data-reveal="right">
+        <div class="frame frame--plain">
+          <p class="eyebrow">Conference secretariat</p>
+          <p class="h5" style="margin-bottom:.5rem">IASRM</p>
+          <p class="small">International Association of Stemcell &amp; Regenerative Medicine<br>New Delhi, India</p>
+          <dl class="deflist" style="margin-top:1rem">
+            <div class="deflist__row"><dt>Email</dt><dd><a href="mailto:info@iasrmglobal.org">info@iasrmglobal.org</a></dd></div>
+            <div class="deflist__row"><dt>WhatsApp</dt><dd><a href="https://wa.me/919810418415" rel="noopener">+91 98104 18415</a></dd></div>
+            <div class="deflist__row"><dt>Web</dt><dd><a href="https://www.iasrmglobal.org" rel="noopener">iasrmglobal.org</a></dd></div>
+            <div class="deflist__row"><dt>Hours</dt><dd>Mon – Fri, 10:00 – 18:00 IST</dd></div>
+          </dl>
+        </div>
+
+        <div class="card card--flat">
+          <p class="card__meta">Who to write to</p>
+          <dl class="deflist" style="margin-top:.5rem">
+            <div class="deflist__row"><dt>Registration</dt><dd><a href="mailto:info@iasrmglobal.org">info@iasrmglobal.org</a></dd></div>
+            <div class="deflist__row"><dt>Accounts</dt><dd><a href="mailto:accounts@iasrmglobal.org">accounts@iasrmglobal.org</a></dd></div>
+            <div class="deflist__row"><dt>Abstracts</dt><dd><a href="mailto:abstracts@iasrmglobal.org">abstracts@iasrmglobal.org</a></dd></div>
+            <div class="deflist__row"><dt>Sponsorship</dt><dd><a href="mailto:partners@iasrmglobal.org">partners@iasrmglobal.org</a></dd></div>
+            <div class="deflist__row"><dt>Press</dt><dd><a href="mailto:press@iasrmglobal.org">press@iasrmglobal.org</a></dd></div>
+          </dl>
+        </div>
+
+        <div class="notice notice--alert">
+          <div><strong class="notice__title">How we will and will not contact you</strong>Everything from us comes from an <strong>@iasrmglobal.org</strong> address. We never ask for card details, OTPs or transfers to a personal account, and no third-party agency is authorised to collect money or book rooms for this summit.</div>
+        </div>
+
+        <div class="card card--flat">
+          <p class="card__meta">Collaborating organisations</p>
+          <p class="card__body">Title sponsor: AYUVA.<br>In collaboration with the Anti-Ageing Foundation (India) and the Entrepreneur Forum of India.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

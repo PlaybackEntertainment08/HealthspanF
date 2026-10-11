@@ -1,0 +1,98 @@
+{
+  "slug": "tour.html",
+  "navKey": "delegates",
+  "priority": "0.6",
+  "title": "Delhi Tours & the Agra Extension | Delhi 2027",
+  "description": "Optional day tours of Old and New Delhi, a Mughal monuments walk, a food trail and the Agra sunrise extension, for delegates and accompanying persons.",
+  "crumbs": [
+    [
+      "Delegates",
+      null
+    ],
+    [
+      "Delhi Tours",
+      "tour.html"
+    ]
+  ],
+  "pagehead": {
+    "eyebrow": "Before and after the summit",
+    "h1": "Delhi tours",
+    "lede": "Optional, bookable through the secretariat, and priced at cost. Accompanying persons are particularly welcome — several of these run while the halls are sitting."
+  },
+  "ogTitle": "Delhi Tours & the Agra Extension | Delhi 2027"
+}
+---
+<section class="section">
+  <div class="shell">
+    <div class="grid grid--2" data-reveal-group>
+      <article class="card">
+        <p class="card__meta">Half day · 9 or 12 April</p>
+        <h3 class="card__title">Old Delhi: Shahjahanabad on foot</h3>
+        <p class="card__body">The Red Fort, Jama Masjid and the lanes of Chandni Chowk, walked rather than driven, with a cycle-rickshaw stretch through Kinari Bazaar. Finishes at a Mughlai lunch.</p>
+        <p class="small">Four hours · moderate walking · from ₹ 3,500 per person</p>
+      </article>
+      <article class="card">
+        <p class="card__meta">Half day · 9 or 12 April</p>
+        <h3 class="card__title">New Delhi: Lutyens and the Mughals</h3>
+        <p class="card__body">Humayun’s Tomb, the Qutub Minar complex, India Gate and a drive through the Lutyens avenues. The two UNESCO sites that bracket Delhi’s Mughal centuries.</p>
+        <p class="small">Four hours · light walking · from ₹ 3,200 per person</p>
+      </article>
+      <article class="card">
+        <p class="card__meta">Evening · 9, 10 or 11 April</p>
+        <h3 class="card__title">The Delhi food trail</h3>
+        <p class="card__body">Six stops across Old Delhi and Nizamuddin, from kebabs to kulfi, with a guide who can tell you which stall has been doing one thing for sixty years. A vegetarian route runs in parallel.</p>
+        <p class="small">Three hours · evening · from ₹ 2,800 per person</p>
+      </article>
+      <article class="card">
+        <p class="card__meta">Half day · daily</p>
+        <h3 class="card__title">Spiritual Delhi</h3>
+        <p class="card__body">The Lotus Temple, Akshardham and Gurudwara Bangla Sahib, including the langar kitchen that feeds several thousand people a day. Modest dress and covered heads; scarves provided.</p>
+        <p class="small">Four hours · light walking · from ₹ 3,000 per person</p>
+      </article>
+      <article class="card card--dark" style="grid-column:1/-1">
+        <p class="card__meta">Full day · 12 April</p>
+        <h3 class="card__title">The Agra extension — the Taj Mahal at sunrise</h3>
+        <p class="card__body">Leaves Aerocity at 05:00 by road or on the Gatimaan Express, at the Taj for the opening of the gates, then Agra Fort and lunch before returning by early evening. The single most common reason delegates extend their stay by a day, and worth it.</p>
+        <p class="small" style="color:var(--cream-2)">Twelve hours · from ₹ 9,500 per person including entry, guide and lunch · minimum six, maximum twenty-four</p>
+        <p style="margin-top:.9rem"><a class="btn btn--gold btn--sm" href="#book">Register interest</a></p>
+      </article>
+    </div>
+
+    <p class="small" style="margin-top:1.5rem">Prices are indicative and confirmed in January 2027. Tours run on a minimum-numbers basis and are operated by a licensed Delhi tour operator appointed by the secretariat; IASRM takes no margin.</p>
+  </div>
+</section>
+
+<section class="section section--band section--ruled" id="book">
+  <div class="shell shell--narrow">
+    <div class="section-head section-head--center" data-reveal>
+      <p class="eyebrow eyebrow--rule">Register interest</p>
+      <h2 style="font-size:var(--step-3)">Tell us which, and for how many</h2>
+      <p class="lede">Nothing is charged now. The secretariat confirms numbers in January 2027 and sends a payment link once each tour is viable.</p>
+    </div>
+
+    <form class="frame" data-validate data-endpoint="/api/tours/interest" data-success="Thank you — your interest is noted. We will confirm which tours are running in January 2027 and send a payment link for the ones you chose." novalidate>
+      <div class="field-row">
+        <div class="field"><label class="field__label" for="t-name">Your name <span class="req">*</span></label><input class="input" id="t-name" name="name" data-rule="name" required autocomplete="name"><span class="field__error"></span></div>
+        <div class="field"><label class="field__label" for="t-email">Email <span class="req">*</span></label><input class="input" type="email" id="t-email" name="email" data-rule="email" required autocomplete="email"><span class="field__error"></span></div>
+      </div>
+      <fieldset style="border:0;padding:0;margin:0 0 1.25rem">
+        <legend class="field__label" style="padding:0;margin-bottom:.6rem">Which tours interest you?</legend>
+        <label class="check"><input type="checkbox" name="tour" value="old-delhi"><span>Old Delhi: Shahjahanabad on foot</span></label>
+        <label class="check"><input type="checkbox" name="tour" value="new-delhi"><span>New Delhi: Lutyens and the Mughals</span></label>
+        <label class="check"><input type="checkbox" name="tour" value="food"><span>The Delhi food trail</span></label>
+        <label class="check"><input type="checkbox" name="tour" value="spiritual"><span>Spiritual Delhi</span></label>
+        <label class="check"><input type="checkbox" name="tour" value="agra"><span>The Agra extension — the Taj Mahal at sunrise</span></label>
+      </fieldset>
+      <div class="field-row">
+        <div class="field"><label class="field__label" for="t-count">How many people</label><input class="input" type="number" id="t-count" name="party" min="1" max="12" value="1"></div>
+        <div class="field">
+          <label class="field__label" for="t-diet">Dietary preference for tour meals</label>
+          <select class="select" id="t-diet" name="diet"><option>Vegetarian</option><option>Jain</option><option>Vegan</option><option>Non-vegetarian</option><option>Halal</option></select>
+        </div>
+      </div>
+      <div class="field"><label class="field__label" for="t-notes">Anything else</label><textarea class="textarea" id="t-notes" name="notes" style="min-height:90px" placeholder="Mobility needs, preferred dates, travelling with children…"></textarea></div>
+      <div class="notice" hidden data-form-status role="status" aria-live="polite" style="margin-bottom:1rem"></div>
+      <button class="btn btn--primary btn--block" type="submit">Register my interest</button>
+    </form>
+  </div>
+</section>
