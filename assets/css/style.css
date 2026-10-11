@@ -107,11 +107,16 @@ body{
   -moz-osx-font-smoothing:grayscale;
   overflow-x:hidden;
 }
-/* Laid-paper grain — above backgrounds, below content */
+/* Laid-paper grain — above backgrounds, below content.
+   Deliberately NOT mix-blend-mode: a blended fixed layer makes the compositor
+   re-read the whole viewport every scroll frame. A plain translucent layer
+   stays on the GPU and costs nothing to scroll. */
 body::before{
   content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
   background-image:var(--grain);
-  mix-blend-mode:multiply;opacity:.55;
+  opacity:.9;
+  will-change:transform;
+  contain:strict;
 }
 img,svg,video{max-width:100%;height:auto;display:block}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -120,6 +125,51 @@ figure,blockquote{margin:0}
 table{border-collapse:collapse;width:100%}
 hr{border:0;border-top:var(--rule-hair);margin:2rem 0}
 ::selection{background:var(--gold);color:var(--ink)}
+
+/* ---------------------------------------------------------------------------
+   SURFACES
+   Rather than chase every "light text on light ground" pairing with descendant
+   selectors, a dark surface re-points the ink tokens themselves. Anything
+   nested inside it — now or later — reads correctly without a new rule.
+   A light component sitting inside a dark surface restores the defaults.
+   --------------------------------------------------------------------------- */
+.hero,.pagehead,.section--maroon,.section--maroon-deep,
+.card--dark,.frame--dark,.pricecard--featured,
+.sitefooter,.ticker,.topbar,.siteheader,.preloader,.stickycta{
+  --ink:#F7F0E1;
+  --ink-2:#F1E4C8;
+  --ink-3:#EAD9B0;
+  --ink-muted:#C9A56A;
+  --crimson:#D9AE52;
+  --gold-dark:#D9AE52;
+  --rule:rgba(217,174,82,.34);
+  --gold-soft:rgba(217,174,82,.42);
+  color:var(--ink);
+}
+/* Light islands inside a dark surface put the ink back. */
+.notice,.table-wrap,.authcard,.summary,.dashnav,.statusbar,
+.nav__menu,.fact,.person,.book,.logo-slot,.filefield,.paymethod,
+.input,.select,.textarea,.badge-tier,
+.frame:not(.frame--dark),
+.card:not(.card--dark),
+.pricecard:not(.pricecard--featured){
+  --ink:#2B1A0E;
+  --ink-2:#4A3020;
+  --ink-3:#6B4A2B;
+  --ink-muted:#8A6B4F;
+  --crimson:#8E2418;
+  --gold-dark:#B8862B;
+  --rule:#D9C495;
+  --gold-soft:#C9A56A;
+  color:var(--ink);
+}
+/* The one place the token swap is not enough: a filled disc needs its
+   foreground flipped too, or gold sits on cream. */
+.hero .steps li::before,.pagehead .steps li::before,
+.section--maroon .steps li::before,.section--maroon-deep .steps li::before,
+.frame--dark .steps li::before{background:var(--gold);color:var(--maroon-deep)}
+.frame:not(.frame--dark) .steps li::before,
+.notice .steps li::before{background:var(--crimson);color:var(--paper)}
 
 a{color:var(--crimson);text-decoration:none;text-underline-offset:.22em;transition:color .22s var(--ease)}
 a:hover{color:var(--crimson-dark)}
@@ -167,7 +217,6 @@ strong,b{font-weight:600}
 .eyebrow--rule::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,currentColor,transparent);opacity:.45}
 
 .lede{font-size:var(--step-1);line-height:1.55;color:var(--ink-2);max-width:62ch}
-.section--maroon .lede,.section--maroon-deep .lede,.hero .lede{color:var(--cream-1)}
 .serif{font-family:var(--font-serif);font-size:var(--step-2);line-height:1.5;font-weight:500}
 .serif-italic{font-family:var(--font-serif);font-style:italic;font-size:var(--step-2);line-height:1.45}
 .script{font-family:var(--font-script);color:var(--crimson);line-height:1.15;font-size:clamp(1.9rem,1.2rem + 2.2vw,2.9rem)}
@@ -186,6 +235,11 @@ strong,b{font-weight:600}
   color:transparent;-webkit-text-fill-color:transparent;
 }
 .foil--shimmer{animation:foilSweep 9s linear infinite}
+/* Without background-clip:text the transparent fill would hide the heading
+   entirely, so fall back to flat gold. */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .foil{background:none;color:var(--gold);-webkit-text-fill-color:currentColor}
+}
 @keyframes foilSweep{to{background-position:220% 0}}
 
 .dropcap>p:first-of-type::first-letter{
@@ -209,14 +263,13 @@ strong,b{font-weight:600}
 .section--ruled{border-block:var(--rule-hair)}
 .section--rule-top{border-top:var(--rule-hair)}
 .section--rule-bottom{border-bottom:var(--rule-hair)}
-.section--maroon .eyebrow,.section--maroon-deep .eyebrow{color:var(--gold)}
-.section--maroon p,.section--maroon-deep p{color:var(--cream-1)}
-.section--maroon h1,.section--maroon h2,.section--maroon h3,
-.section--maroon-deep h1,.section--maroon-deep h2,.section--maroon-deep h3{color:var(--paper)}
-.section--maroon .muted,.section--maroon-deep .muted,
-.section--maroon .small,.section--maroon-deep .small{color:var(--cream-2)}
-.section--maroon a:not(.btn),.section--maroon-deep a:not(.btn){color:var(--gold)}
-.section--maroon a:not(.btn):hover,.section--maroon-deep a:not(.btn):hover{color:var(--paper)}
+/* Colour on these grounds comes from the surface tokens above, not from
+   blanket descendant rules — a blanket `.section--maroon p` would also
+   repaint the paragraphs inside a light .notice nested in the section. */
+.section--maroon a:not(.btn):hover,.section--maroon-deep a:not(.btn):hover,
+.hero a:not(.btn):hover,.pagehead a:not(.btn):hover,
+.card--dark a:not(.btn):hover,.frame--dark a:not(.btn):hover,
+.pricecard--featured a:not(.btn):hover{color:var(--paper)}
 
 .section-head{margin-bottom:clamp(1.75rem,1rem + 2.4vw,3rem)}
 .section-head--center{text-align:center}
@@ -256,7 +309,7 @@ strong,b{font-weight:600}
 .tricolour span:nth-child(2){background:#fff}
 .tricolour span:nth-child(3){background:var(--green)}
 .tricolour--stack{flex-direction:column;width:68px;height:auto;flex:none}
-.tricolour--stack span{height:5px}
+.tricolour--stack span{flex:none;height:5px}
 
 /* ==========================================================================
    05. NAVIGATION
@@ -268,7 +321,7 @@ strong,b{font-weight:600}
   pointer-events:none;
 }
 .topbar{
-  background:var(--crimson-dark);color:var(--cream-2);
+  background:#5E150D;color:var(--cream-2);
   font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
   padding:.5rem 0;position:relative;z-index:1002;
 }
@@ -288,7 +341,7 @@ strong,b{font-weight:600}
   display:flex;align-items:center;gap:1.25rem;
   min-height:var(--nav-h);padding-block:.5rem;
 }
-.brand{display:flex;align-items:center;gap:.8rem;color:var(--paper);margin-right:auto}
+.brand{display:flex;align-items:center;gap:.8rem;color:var(--paper);margin-right:auto;min-width:0;flex:0 1 auto}
 .brand:hover{color:var(--paper)}
 .brand__mark{
   width:42px;height:42px;border-radius:50%;flex:none;
@@ -298,9 +351,9 @@ strong,b{font-weight:600}
   transition:transform .4s var(--ease-out);
 }
 .brand:hover .brand__mark{transform:rotate(-8deg) scale(1.05)}
-.brand__text{display:flex;flex-direction:column;line-height:1.15}
-.brand__name{font-family:var(--font-display);font-weight:800;font-size:.95rem;letter-spacing:.11em}
-.brand__sub{font-size:.62rem;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.brand__text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand__name{font-family:var(--font-display);font-weight:800;font-size:.95rem;letter-spacing:.11em;white-space:nowrap}
+.brand__sub{font-size:.62rem;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-top:2px;white-space:nowrap}
 
 .nav{display:flex;align-items:center;gap:.15rem}
 .nav__item{position:relative}
@@ -329,6 +382,10 @@ strong,b{font-weight:600}
   transition:opacity .22s var(--ease),transform .22s var(--ease),visibility .22s;
 }
 .nav__item.is-open .nav__menu{opacity:1;visibility:visible;transform:translateY(0)}
+/* The right-hand menus would hang past the viewport on a narrow laptop or an
+   iPad in portrait. Because they are absolutely positioned they widen the
+   page even while closed, so this is a layout fix, not just a visual one. */
+.nav__item:nth-last-child(-n+2) .nav__menu{left:auto;right:0}
 .nav__menu a{
   display:block;padding:.6rem .8rem;color:var(--ink);font-size:.88rem;
   border-left:2px solid transparent;transition:background .2s,border-color .2s,color .2s;
@@ -376,7 +433,10 @@ strong,b{font-weight:600}
    06. BUTTONS
    ========================================================================== */
 .btn{
-  --btn-bg:var(--gold);--btn-fg:var(--ink);--btn-bd:var(--gold);
+  /* Literals, not surface tokens: a button must look the same on parchment
+     and on maroon, so it must not inherit a remapped --ink or --crimson. */
+  --b-ink:#2B1A0E;--b-crimson:#8E2418;--b-maroon:#4E120C;--b-paper:#F7F0E1;--b-gold:#D9AE52;
+  --btn-bg:var(--b-gold);--btn-fg:var(--b-ink);--btn-bd:var(--b-gold);
   position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
   min-height:48px;padding:.85rem 1.75rem;
   background:var(--btn-bg);color:var(--btn-fg);border:2px solid var(--btn-bd);
@@ -387,21 +447,21 @@ strong,b{font-weight:600}
 }
 .btn::before{
   content:"";position:absolute;inset:0;z-index:-1;
-  background:var(--ink);transform:translateY(101%);
+  background:var(--b-ink);transform:translateY(101%);
   transition:transform .42s var(--ease-out);
 }
-.btn:hover,.btn:focus-visible{color:var(--paper);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn:hover,.btn:focus-visible{color:var(--b-paper);transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .btn:hover::before,.btn:focus-visible::before{transform:translateY(0)}
 .btn:active{transform:translateY(0)}
-.btn--primary{--btn-bg:var(--crimson);--btn-fg:var(--paper);--btn-bd:var(--crimson)}
-.btn--primary::before{background:var(--maroon-deep)}
-.btn--gold{--btn-bg:var(--gold);--btn-fg:var(--ink);--btn-bd:var(--gold)}
-.btn--gold::before{background:var(--crimson)}
-.btn--ghost{--btn-bg:transparent;--btn-fg:var(--crimson);--btn-bd:var(--crimson)}
-.btn--ghost::before{background:var(--crimson)}
-.btn--ghost-gold{--btn-bg:transparent;--btn-fg:var(--paper);--btn-bd:var(--gold)}
-.btn--ghost-gold::before{background:var(--gold)}
-.btn--ghost-gold:hover,.btn--ghost-gold:focus-visible{color:var(--ink)}
+.btn--primary{--btn-bg:var(--b-crimson);--btn-fg:var(--b-paper);--btn-bd:var(--b-crimson)}
+.btn--primary::before{background:var(--b-maroon)}
+.btn--gold{--btn-bg:var(--b-gold);--btn-fg:var(--b-ink);--btn-bd:var(--b-gold)}
+.btn--gold::before{background:var(--b-crimson)}
+.btn--ghost{--btn-bg:transparent;--btn-fg:var(--b-crimson);--btn-bd:var(--b-crimson)}
+.btn--ghost::before{background:var(--b-crimson)}
+.btn--ghost-gold{--btn-bg:transparent;--btn-fg:var(--b-paper);--btn-bd:var(--b-gold)}
+.btn--ghost-gold::before{background:var(--b-gold)}
+.btn--ghost-gold:hover,.btn--ghost-gold:focus-visible{color:var(--b-ink)}
 .btn--sm{min-height:40px;padding:.55rem 1.15rem;font-size:.76rem;letter-spacing:.13em}
 .btn--lg{min-height:58px;padding:1.05rem 2.5rem;font-size:.98rem}
 .btn--block{display:flex;width:100%}
@@ -479,7 +539,7 @@ strong,b{font-weight:600}
 .deflist__row{display:grid;grid-template-columns:minmax(120px,.42fr) minmax(0,1fr);gap:1rem;padding:.85rem 0;border-bottom:1px dotted var(--gold-soft)}
 .deflist__row:last-child{border-bottom:0}
 .deflist dt{font-weight:600;color:var(--ink-3);font-size:.86rem;letter-spacing:.09em;text-transform:uppercase}
-.deflist dd{margin:0}
+.deflist dd{margin:0;overflow-wrap:anywhere}
 
 /* — Ruled index list — */
 .index-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0 1.5rem}
@@ -568,7 +628,7 @@ strong,b{font-weight:600}
 .accordion__panel>div{padding:0 .25rem 1.4rem;color:var(--ink-2);max-width:72ch}
 
 /* — Marquee ticker — */
-.ticker{background:var(--crimson);color:var(--paper-gold);overflow:hidden;padding:.7rem 0;position:relative;z-index:2;border-block:1px solid var(--gold-dark)}
+.ticker{background:#8E2418;color:var(--paper-gold);overflow:hidden;padding:.7rem 0;position:relative;z-index:2;border-block:1px solid var(--gold-dark)}
 .ticker__track{display:flex;gap:3rem;width:max-content;animation:tickerRoll 42s linear infinite}
 .ticker:hover .ticker__track{animation-play-state:paused}
 .ticker__item{display:flex;align-items:center;gap:3rem;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap}
@@ -597,9 +657,9 @@ strong,b{font-weight:600}
 .factstrip{display:flex;flex-wrap:wrap;gap:.9rem;justify-content:center}
 .fact{background:var(--paper);color:var(--ink);padding:.85rem 1.5rem;text-align:left;min-width:170px}
 .fact--gold{background:var(--gold)}
-.fact__label{font-size:.7rem;letter-spacing:.24em;color:var(--crimson);font-weight:600;text-transform:uppercase}
+.fact__label{display:block;font-size:.7rem;letter-spacing:.24em;color:var(--crimson);font-weight:600;text-transform:uppercase}
 .fact--gold .fact__label{color:var(--maroon-deep)}
-.fact__value{font-family:var(--font-display);font-weight:800;font-size:1.3rem;margin-top:.15rem;line-height:1.2}
+.fact__value{display:block;font-family:var(--font-display);font-weight:800;font-size:1.3rem;margin-top:.15rem;line-height:1.2}
 
 /* ==========================================================================
    08. HERO / PROGRAMME / TIMELINE
@@ -624,6 +684,31 @@ strong,b{font-weight:600}
 }
 .hero__skyline{margin-top:2.25rem;width:100%;max-width:920px;opacity:.95}
 .hero__fineprint{margin-top:.85rem;font-size:.9rem;color:var(--cream-2);font-style:italic}
+
+/* Hero entrance is pure CSS and runs off the compositor. It deliberately does
+   not go through GSAP: this is the most important content on the site and it
+   must never be left invisible because a CDN was slow or rAF was throttled. */
+@keyframes heroIn{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
+/* fill-mode: backwards, never both. If animations are unavailable the rule
+   simply does not apply and the content is visible, instead of being pinned
+   at the hidden from-state forever. The whole sequence is done inside 0.8s. */
+.hero .shell>*{animation:heroIn .5s var(--ease-out) backwards}
+.hero .shell>*:nth-child(1){animation-delay:.04s}
+.hero .shell>*:nth-child(2){animation-delay:.08s}
+.hero .shell>*:nth-child(3){animation-delay:.12s}
+.hero .shell>*:nth-child(4){animation-delay:.16s}
+.hero .shell>*:nth-child(5){animation-delay:.20s}
+.hero .shell>*:nth-child(6){animation-delay:.24s}
+.hero .shell>*:nth-child(7){animation-delay:.28s}
+.hero .shell>*:nth-child(8){animation-delay:.32s}
+.hero .shell>*:nth-child(n+9){animation-delay:.36s}
+@keyframes emblemIn{from{opacity:0;transform:scale(.88) rotate(-10deg)}to{opacity:1;transform:none}}
+/* Specificity has to beat `.hero .shell>*` above, or the emblem silently
+   inherits the generic entrance instead of its own. */
+.hero .shell>.hero__emblem{animation:emblemIn .75s cubic-bezier(.22,1.2,.4,1) .08s backwards}
+@media (prefers-reduced-motion:reduce){
+  .hero .shell>*,.hero__emblem{animation:none}
+}
 
 /* Day tabs */
 .daytabs{display:flex;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:1.5rem}
@@ -696,7 +781,7 @@ strong,b{font-weight:600}
 }
 .field-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:0 1.1rem}
 .check{display:flex;gap:.7rem;align-items:flex-start;font-size:.92rem;line-height:1.5;cursor:pointer;margin-bottom:.7rem}
-.check input{width:19px;height:19px;flex:none;margin-top:.15rem;accent-color:var(--crimson)}
+.check input{width:24px;height:24px;flex:none;margin-top:.05rem;accent-color:#8E2418}
 .filefield{
   border:1.5px dashed var(--gold-dark);background:var(--paper);padding:1.1rem;
   text-align:center;cursor:pointer;transition:background .25s,border-color .25s;
@@ -755,7 +840,7 @@ strong,b{font-weight:600}
   border:1.5px solid var(--rule);background:var(--paper-raised);transition:border-color .25s,background .25s;
 }
 .paymethod:hover{border-color:var(--gold-dark)}
-.paymethod input{margin-top:.2rem;accent-color:var(--crimson);width:18px;height:18px;flex:none}
+.paymethod input{margin-top:.15rem;accent-color:#8E2418;width:24px;height:24px;flex:none}
 .paymethod:has(input:checked){border-color:var(--crimson);background:var(--paper-gold)}
 .paymethod__name{font-weight:600;display:block}
 .paymethod__note{font-size:.84rem;color:var(--ink-3)}
@@ -772,7 +857,7 @@ strong,b{font-weight:600}
 .sitefooter a:hover{color:var(--gold)}
 .footgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr));gap:clamp(1.75rem,1rem + 2.4vw,2.75rem)}
 .foot__title{font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.9rem}
-.foot__list{list-style:none;display:flex;flex-direction:column;gap:.5rem;font-size:.94rem}
+.foot__list{list-style:none;display:flex;flex-direction:column;gap:.5rem;font-size:.94rem;overflow-wrap:anywhere}
 .foot__brand{font-family:var(--font-display);font-weight:800;font-size:1.3rem;color:var(--paper);line-height:1.2}
 .socials{display:flex;gap:.55rem;margin-top:1rem}
 .socials a{width:40px;height:40px;border:1px solid var(--gold-dark);display:grid;place-items:center;transition:background .25s,transform .25s var(--ease-out)}
@@ -808,18 +893,51 @@ strong,b{font-weight:600}
    11. MOTION & REVEAL
    ========================================================================== */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-/* Hidden until GSAP claims them. If the script never runs, .no-js stays on
-   <html> and they show; once GSAP has taken over, .reveal-ready is the
-   resting state the tween's clearProps falls back to. */
-[data-reveal],[data-reveal-group]>*{opacity:0}
-.no-js [data-reveal],.no-js [data-reveal-group]>*,
-.reveal-ready [data-reveal],.reveal-ready [data-reveal-group]>*{opacity:1}
+/* Scroll reveals are CSS transitions driven by IntersectionObserver, not by
+   tweens. Two reasons: a hundred simultaneous tweens is the main cost on a
+   long page, and a transform/opacity transition is handled by the compositor
+   rather than the main thread. It also cannot strand content invisible if
+   requestAnimationFrame is throttled.
+   Nothing is hidden until JS confirms it can reveal it again (.reveal-ready). */
+.reveal-ready [data-reveal],
+.reveal-ready [data-reveal-group]>*{
+  opacity:0;
+  /* translate3d alone is enough of a hint to composite this; a blanket
+     will-change would promote every unrevealed element on the page to its
+     own GPU layer at once, which costs more memory than it buys. */
+  transform:translate3d(0,12px,0);
+  transition:opacity .45s var(--ease-out),transform .45s var(--ease-out);
+}
+.reveal-ready [data-reveal="left"]{transform:translate3d(-16px,0,0)}
+.reveal-ready [data-reveal="right"]{transform:translate3d(16px,0,0)}
+.reveal-ready [data-reveal="scale"]{transform:translate3d(0,8px,0) scale(.985)}
+.reveal-ready [data-reveal].is-in,
+.reveal-ready [data-reveal-group]>.is-in{
+  opacity:1;transform:none;
+}
+/* Above-the-fold content is shown without a transition so the first screen
+   never appears to animate in late. */
+.reveal-ready [data-reveal].is-instant,
+.reveal-ready [data-reveal-group]>.is-instant{transition:none}
 
+@media (prefers-reduced-motion:reduce){
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal-group]>*{opacity:1;transform:none;transition:none}
+}
+
+/* The preloader dismisses itself in CSS. It must never depend on JavaScript:
+   main.js is deferred behind the GSAP CDN, so a blocked or slow CDN would
+   otherwise leave a visitor staring at a full-screen panel forever.
+   It is also pointer-events:none throughout, so it can never trap a click. */
 .preloader{
   position:fixed;inset:0;z-index:2000;background:var(--maroon-deep);
-  display:grid;place-items:center;transition:opacity .6s var(--ease),visibility .6s;
+  display:grid;place-items:center;pointer-events:none;
+  animation:preloaderOut .45s var(--ease) .85s forwards;
 }
-.preloader.is-done{opacity:0;visibility:hidden}
+@keyframes preloaderOut{to{opacity:0;visibility:hidden}}
+/* JS, when it does run, just brings the same fade forward. */
+.preloader.is-done{animation-delay:0s}
+@media (prefers-reduced-motion:reduce){.preloader{display:none}}
 .preloader__seal{width:92px;height:92px;animation:sealSpin 2.4s linear infinite}
 .preloader__seal circle{fill:none;stroke:var(--gold);stroke-width:1.5;opacity:.75}
 .preloader__word{
@@ -831,6 +949,20 @@ strong,b{font-weight:600}
 /* ==========================================================================
    12. RESPONSIVE & PRINT
    ========================================================================== */
+/* Between the drawer breakpoint and a roomy laptop the bar is tight:
+   tighten the nav before anything is allowed to wrap. */
+@media (min-width:961px) and (max-width:1300px){
+  .nav__link{font-size:.74rem;letter-spacing:.09em;padding:.7rem .52rem}
+  .nav__link::after{left:.52rem;right:.52rem}
+  .brand__sub{display:none}
+  .siteheader .shell{gap:.85rem}
+}
+@media (min-width:961px) and (max-width:1120px){
+  .brand__name{font-size:.82rem;letter-spacing:.06em}
+  .brand__mark{width:36px;height:36px;font-size:.72rem}
+  .nav__actions .btn{padding:.55rem .8rem;font-size:.7rem}
+}
+
 @media (max-width:1040px){
   .grid--aside{grid-template-columns:1fr}
   .dash{grid-template-columns:1fr}
@@ -852,6 +984,7 @@ strong,b{font-weight:600}
   .nav.is-open{transform:translateX(0);visibility:visible}
   .nav__link{width:100%;justify-content:space-between;padding:1rem .25rem;font-size:.86rem;border-bottom:1px solid rgba(217,174,82,.22)}
   .nav__link::after{display:none}
+  .nav__item:nth-last-child(-n+2) .nav__menu{left:auto;right:auto}
   .nav__menu{
     position:static;opacity:1;visibility:visible;transform:none;min-width:0;
     background:transparent;border:0;box-shadow:none;padding:0;
@@ -859,14 +992,17 @@ strong,b{font-weight:600}
   }
   .nav__menu a{color:var(--cream-2);padding:.72rem 1rem;border-left:2px solid var(--gold-dark);font-size:.86rem}
   .nav__menu a:hover,.nav__menu a:focus-visible,.nav__menu a[aria-current="page"]{background:rgba(217,174,82,.12);color:var(--gold)}
-  .nav__menu .nav__note{color:var(--ink-muted)}
+  .nav__menu .nav__note{color:var(--gold-soft)}
   .nav__actions .btn{display:none}
   body.nav-open{overflow:hidden}
 }
 @media (max-width:640px){
   :root{--nav-h:66px}
-  .brand__name{font-size:.8rem;letter-spacing:.07em}
+  .brand__name{font-size:.74rem;letter-spacing:.04em}
   .brand__sub{display:none}
+  .brand{gap:.55rem}
+  .brand__mark{width:36px;height:36px;font-size:.7rem}
+  .navtoggle{width:44px;height:44px}
   .agenda__row{grid-template-columns:1fr;gap:.3rem}
   .agenda__time{font-size:.86rem;letter-spacing:.08em}
   .tiers{grid-template-columns:1fr}
@@ -878,6 +1014,42 @@ strong,b{font-weight:600}
   .table{min-width:520px}
   .frame{outline-offset:4px}
 }
+@media (max-width:560px){
+  .deflist__row{grid-template-columns:1fr;gap:.2rem;padding:.7rem 0}
+  .summary__row{flex-wrap:wrap}
+}
+
+@media (max-width:390px){
+  .brand__name{font-size:.66rem;letter-spacing:.02em}
+  .brand__mark{width:32px;height:32px;font-size:.64rem}
+  .siteheader .shell{gap:.5rem}
+}
+
+/* ---------------------------------------------------------------------------
+   NO JAVASCRIPT
+   main.js strips .no-js from <html> the moment it runs, so these rules apply
+   only when it has not — scripting off, a parse error, or the window before
+   a deferred script executes. Everything must stay reachable.
+   --------------------------------------------------------------------------- */
+.no-js .preloader{display:none}
+/* Tab panels carry a literal hidden attribute, so show them all and drop the
+   tablist, which cannot do anything without a script. */
+.no-js [role="tabpanel"][hidden]{display:block}
+.no-js [role="tablist"],.no-js .authtabs{display:none}
+.no-js [role="tabpanel"]+[role="tabpanel"]{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--rule)}
+/* Accordions are closed by aria-expanded + a zero height; open them all. */
+.no-js .accordion__panel{height:auto!important}
+.no-js .accordion__sign{display:none}
+.no-js .countdown{display:none}
+@media (max-width:960px){
+  /* Without a script the drawer can never be opened, so render the nav as a
+     plain stacked list instead of a hidden off-canvas panel. */
+  .no-js .siteheader .shell{flex-wrap:wrap}
+  .no-js .nav{position:static;transform:none;visibility:visible;flex:1 0 100%;padding:0 0 1rem}
+  .no-js .navtoggle{display:none}
+  .no-js .nav__menu{height:auto}
+}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}

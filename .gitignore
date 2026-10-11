@@ -12,3 +12,6 @@ Desktop.ini
 # Python (the build scripts)
 __pycache__/
 *.pyc
+
+# Temporary QA harness copied into the root by _build/qa.sh
+_qa.html

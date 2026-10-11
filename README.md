@@ -46,18 +46,37 @@ output.
 ```
 _build/
 ├── build.py              the generator; also writes sitemap.xml, robots.txt, site.webmanifest
-├── check.py              link, anchor, JSON-LD, heading and label validation
+├── check.py              static validation: links, anchors, JSON-LD, headings, labels, alt text
+├── qa.sh                 runtime QA in headless Chrome, per page per viewport
+├── qa-harness.html       the page qa.sh injects to measure a live render
 ├── make_images.py        regenerates the OG card and the PNG icons
-├── retitle.py            one-off that set the SERP titles/descriptions
 ├── partials/base.html    the shell: head, topbar, header, nav, footer, scripts
 └── pages/*.html          one file per page: JSON front-matter, a `---` line, then the body
 ```
 
 ```bash
 python _build/build.py     # regenerate all 28 pages
-python _build/check.py     # validate (exits non-zero on a problem)
+python _build/check.py     # static validation (exits non-zero on a problem)
 python _build/make_images.py
 ```
+
+### Runtime QA
+
+`check.py` reads the markup; it cannot see computed colour, layout or overflow.
+`qa.sh` renders each page in headless Chrome at a given viewport and reports
+horizontal overflow, elements outside the viewport, touch targets under 24px,
+scroll-reveal targets still hidden while on screen, and WCAG AA contrast
+failures measured from computed styles.
+
+```bash
+python -m http.server 8099          # in one terminal
+bash _build/qa.sh 390 844           # all pages at iPhone width
+bash _build/qa.sh 1440 900 index.html registration.html
+```
+
+The suite is clean on all 28 pages at 360, 390, 768, 1024, 1280, 1440 and
+1920 CSS pixels. Run it after any CSS change — it catches the whole class of
+bug that is invisible in the markup.
 
 The navigation lives in one place — the `NAV` list in `build.py`. Add an item
 there and it appears on every page with the right `aria-current`.
@@ -79,6 +98,10 @@ there and it appears on every page with the right `aria-current`.
 
 `Organization`, `WebSite` and (where relevant) the `EducationEvent` graph are
 added automatically, as is `BreadcrumbList` whenever `crumbs` is present.
+
+`__DAYS__` anywhere in a page or partial is replaced with the number of days
+from the build date to 10 April 2027, so the countdown is real content before
+any script runs. **Rebuild before deploying** or that figure goes stale.
 
 ---
 
@@ -169,16 +192,61 @@ Everything is tokenised at the top of `assets/css/style.css`.
 Type and spacing scale fluidly with `clamp()`, so there are no font-size
 breakpoints to maintain.
 
+### Surfaces, not descendant selectors
+
+A dark surface re-points the ink tokens rather than restating colours for each
+child:
+
+```css
+.hero,.pagehead,.section--maroon,.card--dark,.sitefooter,… {
+  --ink:#F7F0E1; --ink-2:#F1E4C8; --crimson:#D9AE52; --rule:rgba(217,174,82,.34);
+}
+```
+
+Anything nested inside reads correctly without a new rule, and a light
+component dropped into a dark section (`.notice`, `.card`, `.table-wrap`,
+inputs) restores the defaults the same way.
+
+Two things deliberately opt out, because they must look identical on either
+ground: **buttons**, which carry their own `--b-*` literals, and the
+**topbar**, whose background is a literal. Anything that uses a remapped token
+as a *background* rather than as ink has to do the same — that is the one trap
+in this approach.
+
 ## Motion
 
-GSAP 3.12.5 with ScrollTrigger: a hero sequence, scroll reveals
-(`data-reveal`, `data-reveal-group`), counters (`data-count`), parallax
-(`data-parallax`), a tricolour scroll-progress bar and a CSS marquee.
+- **Hero** — pure CSS keyframes, no JS. It is the most important content on
+  the site, so it must not depend on a CDN script or on `requestAnimationFrame`.
+  `animation-fill-mode: backwards` (never `both`) means that if animations
+  never run, the content is simply visible.
+- **Scroll reveals** — IntersectionObserver plus CSS transitions, with a
+  positive bottom `rootMargin` so a section finishes animating before the
+  reader reaches it. Compositor-driven, no per-element tween, and a 6-second
+  failsafe reveals everything regardless.
+- **GSAP 3.12.5 + ScrollTrigger** — counters (`data-count`) and parallax
+  (`data-parallax`) only.
+- **Scrolling** — one rAF-throttled loop drives the progress bar, the sticky
+  header and the back-to-top button. Page height is cached and re-measured on
+  resize; reading `scrollHeight` inside a scroll handler forces a synchronous
+  reflow every frame and is the usual cause of sticky-feeling scroll.
+- **Grain overlay** — a fixed layer with no `mix-blend-mode`. A blended
+  full-viewport layer makes the compositor re-read the whole screen each frame.
 
-Every animation is gated behind `prefers-reduced-motion: reduce`, and the
-content is readable with JavaScript disabled — `.no-js` on `<html>` keeps the
-reveal targets visible, the programme day panels both render, and the dashboard
-shows every panel at once.
+Every animation is gated behind `prefers-reduced-motion: reduce`.
+
+### Without JavaScript
+
+`.no-js` on `<html>` is removed by an inline head script, before first paint —
+not by `main.js`, which is deferred behind the GSAP CDN and would otherwise
+leave the fallbacks showing for as long as that took, then reflow.
+
+While `.no-js` applies, the site stays fully usable: the mobile nav renders as
+a stacked list instead of an un-openable drawer, both programme days and both
+auth panels render (they carry a literal `hidden` attribute), every accordion
+is open, the dashboard shows all panels, the preloader is suppressed, and
+nothing is hidden waiting to be revealed. The countdown is written into the
+HTML at build time, so it reads as a real number rather than a placeholder
+even before the script ticks it.
 
 ## Accessibility
 

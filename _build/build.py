@@ -23,6 +23,7 @@ PARTIALS = os.path.join(HERE, "partials")
 
 SITE = "https://healthspanstandard.org/"
 TODAY = date.today().isoformat()
+DAYS_TO_SUMMIT = max(0, (date(2027, 4, 10) - date.today()).days)
 
 # ---------------------------------------------------------------------------
 # Navigation — one definition, rendered into every page
@@ -277,6 +278,7 @@ def build():
         html = html.replace("__PAGEHEAD__", build_pagehead(meta))
         html = html.replace("__BODY__", body.strip())
         html = html.replace("__BODY_EXTRA__", meta.get("bodyExtra", ""))
+        html = html.replace("__DAYS__", str(DAYS_TO_SUMMIT))
 
         leftovers = re.findall(r"__[A-Z_]+__", html)
         if leftovers:

@@ -59,7 +59,10 @@ class Scan(HTMLParser):
             self.title += data
 
 
-pages = sorted(f for f in os.listdir(ROOT) if f.endswith(".html"))
+# Files prefixed with "_" are build-time tooling (e.g. the QA harness
+# that qa.sh copies in while it runs), not part of the site.
+pages = sorted(f for f in os.listdir(ROOT)
+               if f.endswith(".html") and not f.startswith("_"))
 all_ids = {}
 
 # Pass 1 — collect ids per page

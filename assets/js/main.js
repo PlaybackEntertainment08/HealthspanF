@@ -29,6 +29,44 @@
   }
 
   /* ----------------------------------------------------------------------
+     One scroll loop for the whole page.
+     Every scroll-driven class and style change is batched into a single
+     rAF callback, and the page height is measured only on resize — reading
+     scrollHeight inside a scroll handler forces a synchronous reflow on
+     every frame, which is what makes scrolling feel sticky.
+     ---------------------------------------------------------------------- */
+  var scrollSubs = [];
+  var maxScroll = 0;
+  var ticking = false;
+
+  function measure() {
+    maxScroll = Math.max(1, doc.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function runScroll() {
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset || 0;
+    var p = Math.min(1, Math.max(0, y / maxScroll));
+    for (var i = 0; i < scrollSubs.length; i++) scrollSubs[i](y, p);
+  }
+
+  function onScrollEvent() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(runScroll);
+  }
+
+  function initScrollLoop() {
+    measure();
+    window.addEventListener('scroll', onScrollEvent, { passive: true });
+    window.addEventListener('resize', function () { measure(); onScrollEvent(); }, { passive: true });
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(function () { measure(); });
+      ro.observe(doc.body);
+    }
+  }
+
+  /* ----------------------------------------------------------------------
      Header: stuck state, mobile drawer, dropdown menus (click + hover)
      ---------------------------------------------------------------------- */
   function initHeader() {
@@ -38,11 +76,11 @@
     var mq = window.matchMedia('(max-width: 960px)');
 
     if (header) {
-      var onScroll = function () {
-        header.classList.toggle('is-stuck', window.scrollY > 12);
-      };
-      onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
+      var stuck = null;
+      scrollSubs.push(function (y) {
+        var next = y > 12;
+        if (next !== stuck) { stuck = next; header.classList.toggle('is-stuck', next); }
+      });
     }
 
     if (toggle && nav) {
@@ -123,14 +161,21 @@
     var bar = $('.scroll-progress');
     var top = $('.backtotop');
     if (!bar && !top) return;
-    var tick = function () {
-      var max = doc.body.scrollHeight - window.innerHeight;
-      var pct = max > 0 ? window.scrollY / max : 0;
-      if (bar) bar.style.transform = 'scaleX(' + pct.toFixed(4) + ')';
-      if (top) top.classList.toggle('is-visible', window.scrollY > 700);
-    };
-    tick();
-    window.addEventListener('scroll', tick, { passive: true });
+
+    var lastPct = -1;
+    var shown = null;
+
+    scrollSubs.push(function (y, p) {
+      if (bar) {
+        var pct = Math.round(p * 1000) / 1000;
+        if (pct !== lastPct) { lastPct = pct; bar.style.transform = 'scaleX(' + pct + ')'; }
+      }
+      if (top) {
+        var next = y > 700;
+        if (next !== shown) { shown = next; top.classList.toggle('is-visible', next); }
+      }
+    });
+
     if (top) {
       top.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: REDUCED ? 'auto' : 'smooth' });
@@ -257,53 +302,90 @@
   }
 
   /* ----------------------------------------------------------------------
-     Motion: reveals, counters, parallax, hero sequence
+     Scroll reveals — IntersectionObserver + CSS transitions.
+     Independent of GSAP on purpose: this runs even if the CDN is blocked,
+     costs no main-thread tween work, and anything already on screen at load
+     is shown immediately rather than animating in after the fact.
+     ---------------------------------------------------------------------- */
+  function initReveals() {
+    var items = $$('[data-reveal]');
+    var groups = $$('[data-reveal-group]');
+
+    /* No observer support, or motion turned down: show everything, no classes. */
+    if (REDUCED || !('IntersectionObserver' in window)) {
+      root.classList.add('reveal-ready');
+      items.forEach(function (el) { el.classList.add('is-in', 'is-instant'); });
+      groups.forEach(function (g) {
+        Array.prototype.forEach.call(g.children, function (c) { c.classList.add('is-in', 'is-instant'); });
+      });
+      return;
+    }
+
+    /* Only now does the CSS dare to hide anything. */
+    root.classList.add('reveal-ready');
+
+    var all = items.concat(groups);
+    var now = function () { return window.performance && performance.now ? performance.now() : Date.now(); };
+    var t0 = now();
+
+    var show = function (el, instant) {
+      var kids = el.hasAttribute('data-reveal-group')
+        ? Array.prototype.slice.call(el.children)
+        : [el];
+      kids.forEach(function (kid, i) {
+        if (instant) kid.classList.add('is-instant');
+        else if (kids.length > 1) kid.style.transitionDelay = Math.min(i * 55, 330) + 'ms';
+        kid.classList.add('is-in');
+      });
+    };
+
+    /* No pre-measuring of positions: the observer is told about everything and
+       works out what is on screen itself, so a webfont swap or any other
+       reflow is handled for free. Whatever it reports in the first moments is
+       the first screen, and that is shown without a transition. */
+    var io = new IntersectionObserver(function (entries) {
+      /* Anything reported in the first moments after setup is the first
+         screen, however the layout settled — show it without a transition. */
+      var instant = (now() - t0) < 400;
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        show(entry.target, instant);
+      });
+      /* A positive bottom margin starts the reveal before the element is
+         actually scrolled into view, so it has finished by the time the
+         reader's eye arrives. Nothing on screen is ever left blank. */
+    }, { rootMargin: '0px 0px 12% 0px', threshold: 0 });
+
+    all.forEach(function (el) { io.observe(el); });
+
+    /* Last-resort guarantee: nothing stays hidden, whatever happens. */
+    setTimeout(function () {
+      all.forEach(function (el) { io.unobserve(el); show(el, true); });
+    }, 6000);
+  }
+
+  /* ----------------------------------------------------------------------
+     Motion: counters, parallax, hero sequence (GSAP)
      ---------------------------------------------------------------------- */
   function initMotion() {
     if (!HAS_GSAP || REDUCED) {
-      root.classList.add('reveal-ready');
       $$('[data-count]').forEach(function (n) { n.textContent = n.getAttribute('data-count'); });
       return;
     }
 
     var gsap = window.gsap;
-    if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
-
-    /* Hero entrance */
-    var hero = $('[data-hero]');
-    if (hero) {
-      var seq = gsap.timeline({ defaults: { ease: 'power3.out', clearProps: 'transform' }, delay: .55 });
-      seq.from('[data-hero-item]', { y: 26, opacity: 0, duration: .85, stagger: .085 });
-      var emblem = $('.hero__emblem');
-      if (emblem) seq.from(emblem, { scale: .86, rotate: -14, opacity: 0, duration: 1.1, ease: 'back.out(1.5)' }, .15);
-      var sky = $('.hero__skyline');
-      if (sky) seq.from(sky, { y: 40, opacity: 0, duration: 1.2 }, '-=.6');
+    var ST = window.ScrollTrigger;
+    if (ST) {
+      gsap.registerPlugin(ST);
+      /* limitCallbacks cuts redundant callback churn; fastScrollEnd finishes
+         reveals immediately when the user scrolls past them quickly, instead
+         of leaving a queue of half-played tweens behind. */
+      ST.config({ limitCallbacks: true, ignoreMobileResize: true });
     }
 
-    /* Section reveals.
-       GSAP's `from` renders the start state immediately, so the element is
-       held hidden until its trigger — do not gsap.set() it visible here. */
-    $$('[data-reveal]').forEach(function (el) {
-      var mode = el.getAttribute('data-reveal') || 'up';
-      var from = { opacity: 0, duration: .9, ease: 'power3.out' };
-      if (mode === 'up') from.y = 34;
-      if (mode === 'left') from.x = -36;
-      if (mode === 'right') from.x = 36;
-      if (mode === 'scale') { from.scale = .95; from.y = 20; }
-      from.scrollTrigger = { trigger: el, start: 'top 88%', once: true };
-      from.clearProps = 'opacity,transform';
-      gsap.from(el, from);
-    });
-
-    /* Staggered children */
-    $$('[data-reveal-group]').forEach(function (group) {
-      var kids = Array.prototype.slice.call(group.children);
-      gsap.from(kids, {
-        y: 30, opacity: 0, duration: .8, ease: 'power3.out', stagger: .085,
-        clearProps: 'opacity,transform',
-        scrollTrigger: { trigger: group, start: 'top 88%', once: true }
-      });
-    });
+    /* The hero entrance is CSS (see .hero .shell>* in style.css) so it can
+       never be stranded invisible by a slow CDN or a throttled rAF. */
 
     /* Counters */
     $$('[data-count]').forEach(function (el) {
@@ -334,7 +416,6 @@
       });
     });
 
-    root.classList.add('reveal-ready');
   }
 
   /* ----------------------------------------------------------------------
@@ -370,6 +451,7 @@
      ---------------------------------------------------------------------- */
   function boot() {
     initPreloader();
+    initScrollLoop();
     initHeader();
     initScrollUI();
     initCountdown();
@@ -377,7 +459,12 @@
     initAccordion();
     initCopy();
     initAnchors();
+    initReveals();
     initMotion();
+    /* Subscribers are registered by now — paint the correct initial state
+       for a page that loads already scrolled (a refresh, or a #hash link). */
+    measure();
+    runScroll();
   }
 
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', boot);
