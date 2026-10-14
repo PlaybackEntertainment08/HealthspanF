@@ -18,17 +18,6 @@
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(sel)); };
 
   /* ----------------------------------------------------------------------
-     Preloader — never traps the user; hard-released after 2.2s regardless.
-     ---------------------------------------------------------------------- */
-  function initPreloader() {
-    var pre = $('.preloader');
-    if (!pre) return;
-    var release = function () { pre.classList.add('is-done'); };
-    window.addEventListener('load', function () { setTimeout(release, REDUCED ? 0 : 420); });
-    setTimeout(release, 2200);
-  }
-
-  /* ----------------------------------------------------------------------
      One scroll loop for the whole page.
      Every scroll-driven class and style change is batched into a single
      rAF callback, and the page height is measured only on resize — reading
@@ -450,7 +439,6 @@
      Boot
      ---------------------------------------------------------------------- */
   function boot() {
-    initPreloader();
     initScrollLoop();
     initHeader();
     initScrollUI();

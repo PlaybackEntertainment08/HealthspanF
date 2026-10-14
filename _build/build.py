@@ -36,18 +36,23 @@ NAV = [
         ("The House Rule", "charter.html#house-rule", "Evidence tiers on every slide"),
         ("Three Books", "books.html", "Unveiled from the stage"),
         ("Organising Committee", "committee.html", "Patrons, chairs and secretariat"),
+        ("The Organisers", "organisers.html", "IASRM, who convenes the summit"),
+        ("Collaborating Bodies", "collaborations.html", "Convened with, and affiliations"),
         ("Venue &amp; Delhi", "venue.html", "Getting there, staying, seeing the city"),
     ]},
     {"label": "Programme", "key": "programme", "children": [
         ("Scientific Programme", "programme.html", "Eleven sessions across two days"),
         ("Rapid-Fire Rounds", "rapid-fire.html", "Thirty talks of six minutes"),
         ("Workshops &amp; Masterclasses", "workshops.html", "Hands-on, 9 April"),
+        ("Allied Health &amp; Nursing", "allied-health.html", "A stream of its own, 10 April"),
+        ("Industry Symposia", "industry-workshop.html", "Sponsored sessions, labelled"),
         ("The Experience Lounge", "experience-lounge.html", "Try the tests you order"),
         ("Abstracts &amp; Submissions", "abstracts.html", "Categories, rules, deadlines"),
     ]},
     {"label": "Faculty", "key": "faculty", "children": [
         ("National Faculty", "faculty.html#national", "From across India"),
         ("International Faculty", "faculty.html#international", "Invited from abroad"),
+        ("International Advisory Board", "advisory-board.html", "Councillors, by region"),
         ("Scientific Committee", "committee.html#scientific", "Who reviews the programme"),
     ]},
     {"label": "Longevity 40", "key": "l40", "children": [

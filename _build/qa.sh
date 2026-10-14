@@ -5,7 +5,7 @@ CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
 BASE="http://127.0.0.1:8099"
 W="${1:-1440}"; H="${2:-900}"
 shift 2 2>/dev/null
-ALL="index.html programme.html registration.html login.html dashboard.html payment.html charter.html longevity-40.html abstracts.html faq.html sponsors.html accommodation.html visa.html contact.html committee.html experience-lounge.html terms.html nominate.html tour.html venue.html workshops.html faculty.html books.html about.html downloads.html rapid-fire.html privacy.html 404.html"
+ALL="index.html programme.html registration.html login.html dashboard.html payment.html charter.html longevity-40.html abstracts.html faq.html sponsors.html accommodation.html visa.html contact.html committee.html experience-lounge.html terms.html nominate.html tour.html venue.html workshops.html faculty.html books.html about.html downloads.html rapid-fire.html privacy.html 404.html organisers.html advisory-board.html collaborations.html allied-health.html industry-workshop.html"
 PAGES="${*:-$ALL}"
 
 # The harness must be same-origin with the pages, so it is copied into the

@@ -55,7 +55,7 @@ _build/
 ```
 
 ```bash
-python _build/build.py     # regenerate all 28 pages
+python _build/build.py     # regenerate all 33 pages
 python _build/check.py     # static validation (exits non-zero on a problem)
 python _build/make_images.py
 ```
@@ -74,7 +74,7 @@ bash _build/qa.sh 390 844           # all pages at iPhone width
 bash _build/qa.sh 1440 900 index.html registration.html
 ```
 
-The suite is clean on all 28 pages at 360, 390, 768, 1024, 1280, 1440 and
+The suite is clean on all 33 pages at 360, 390, 768, 1024, 1280, 1440 and
 1920 CSS pixels. Run it after any CSS change — it catches the whole class of
 bug that is invisible in the markup.
 
@@ -109,16 +109,43 @@ any script runs. **Rebuild before deploying** or that figure goes stale.
 
 | | |
 |---|---|
+33 pages.
+
+| | |
+|---|---|
 | `index.html` | Home — hero, countdown, preamble, programme tabs, rapid-fire, Longevity 40, passes, FAQ |
 | `about.html` · `charter.html` · `books.html` | Why we gather · the Charter and house rule · the three book launches |
-| `committee.html` · `faculty.html` · `venue.html` | Organising and scientific committees · faculty · venue and Delhi |
-| `programme.html` · `rapid-fire.html` · `workshops.html` · `experience-lounge.html` | The scientific programme and its parallel streams |
+| `committee.html` · `organisers.html` · `collaborations.html` | Organising and scientific committees · IASRM · convening and affiliated bodies |
+| `faculty.html` · `advisory-board.html` · `venue.html` | Faculty · international councillors by region · venue and Delhi |
+| `programme.html` · `rapid-fire.html` · `workshops.html` · `allied-health.html` · `industry-workshop.html` · `experience-lounge.html` | The scientific programme and its parallel streams |
 | `abstracts.html` | Call for abstracts — nine categories, guidelines, submission form |
 | `longevity-40.html` · `nominate.html` | The inaugural honours and the nomination form |
 | `registration.html` · `login.html` · `payment.html` · `dashboard.html` | The delegate portal |
 | `accommodation.html` · `visa.html` · `tour.html` · `downloads.html` · `faq.html` · `contact.html` | Delegate information |
 | `sponsors.html` | Industry partners and sponsorship packages |
 | `terms.html` · `privacy.html` · `404.html` | Legal and error |
+
+### Mapping to the reference site
+
+Every page on `asvs2026.com` has an equivalent here:
+
+| Reference | Here |
+|---|---|
+| `Organizing-committee.html` | `committee.html` |
+| `Venous-Chapter-VSI.html` (parent society) | `organisers.html` |
+| `ASVS-international-councilors.html` | `advisory-board.html` |
+| `asian-venous-forum.html` (affiliated body) | `collaborations.html` |
+| National / International Faculty (`Coming-soon.html`) | `faculty.html#national`, `#international` |
+| `login.aspx` · `Registration.html` | `login.html` · `registration.html` · `payment.html` · `dashboard.html` |
+| `abstract-category.html` | `abstracts.html` |
+| `program.html` · `program.aspx` | `programme.html` · `dashboard.html#programme` |
+| `ASVS_Allied_Health.pdf` | `allied-health.html` |
+| Trainee programme PDF | `workshops.html` |
+| `workshops.aspx` · `workshop.aspx` | `workshops.html` |
+| `industry-workshop.html` | `industry-workshop.html` |
+| `accomodation.html` · `visa.html` · `Tour.html` | `accommodation.html` · `visa.html` · `tour.html` |
+| `our-sponsors.html` | `sponsors.html` |
+| Brochure PDFs under Download | `downloads.html` |
 
 ---
 
@@ -231,6 +258,13 @@ in this approach.
   reflow every frame and is the usual cause of sticky-feeling scroll.
 - **Grain overlay** — a fixed layer with no `mix-blend-mode`. A blended
   full-viewport layer makes the compositor re-read the whole screen each frame.
+- **The loader** — shown on the **first page of a session only**, never again
+  while the visitor moves around. On a 28-plus-page static site a curtain on
+  every click is just a wait, for content that is already there. It is off by
+  default and opted into by the inline head script, so if the script,
+  `sessionStorage` or CSS animations are unavailable the page simply shows.
+  Because it only ever appears when that script ran, the same script can
+  guarantee its removal; it also never takes pointer events.
 
 Every animation is gated behind `prefers-reduced-motion: reduce`.
 

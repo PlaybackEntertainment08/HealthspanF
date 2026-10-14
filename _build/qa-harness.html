@@ -84,7 +84,7 @@ f.onload = () => setTimeout(() => {
   const low = [];
   d.querySelectorAll('p,h1,h2,h3,h4,h5,h6,li,td,th,a,span,div,dt,dd,label').forEach(el => {
     const txt = Array.from(el.childNodes).filter(n=>n.nodeType===3).map(n=>n.textContent.trim()).join('');
-    if (txt.length < 4) return;
+    if (txt.length < 2) return;
     const cs = w.getComputedStyle(el);
     if (cs.visibility==='hidden' || cs.display==='none' || parseFloat(cs.opacity)<0.5) return;
     const r = el.getBoundingClientRect(); if (!r.width || !r.height) return;

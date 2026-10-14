@@ -46,10 +46,20 @@
 <!-- Bootstrap grid & utilities (subset used for responsive helpers) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="assets/css/style.css">
-<!-- Drop .no-js before first paint. main.js is deferred behind the GSAP CDN,
-     so waiting for it would show the no-script fallbacks (expanded mobile nav,
-     all tab panels open) for as long as that takes, then reflow. -->
-<script>document.documentElement.classList.remove('no-js');</script>
+<!-- Runs before first paint. main.js is deferred behind the GSAP CDN, so
+     waiting for it would show the no-script fallbacks (expanded mobile nav,
+     all tab panels open) for as long as that took, then reflow.
+     It also opts the loader in for the first page of a session only: on a
+     static multi-page site a curtain on every click is just a wait. Anything
+     unavailable here simply means no loader, which is the safe direction. -->
+<script>
+(function(){var d=document.documentElement;d.classList.remove('no-js');
+try{if(!sessionStorage.getItem('hs.entered')){sessionStorage.setItem('hs.entered','1');d.classList.add('show-loader');
+/* The loader only ever appears because this script ran, so this script can
+   always take it away again. The CSS fade does the visible work; this is the
+   guarantee that it leaves even if the animation never progresses. */
+setTimeout(function(){d.classList.remove('show-loader');},1100);}}catch(e){}})();
+</script>
 
 
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://healthspanstandard.org/#organisation","name":"International Association of Stemcell & Regenerative Medicine","alternateName":"IASRM","url":"https://www.iasrmglobal.org","email":"info@iasrmglobal.org","telephone":"+91-98104-18415","logo":"https://healthspanstandard.org/assets/img/favicon.svg","sameAs":["https://www.linkedin.com/company/iasrm","https://x.com/iasrmglobal","https://www.instagram.com/iasrmglobal","https://www.youtube.com/@iasrm"]},{"@type":"WebSite","@id":"https://healthspanstandard.org/#website","url":"https://healthspanstandard.org/","name":"Healthspan Standard 2027","inLanguage":"en-IN","publisher":{"@id":"https://healthspanstandard.org/#organisation"}},{"@type":"BreadcrumbList","@id":"https://healthspanstandard.org/dashboard.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://healthspanstandard.org/"},{"@type":"ListItem","position":2,"name":"Delegates"},{"@type":"ListItem","position":3,"name":"Dashboard","item":"https://healthspanstandard.org/dashboard.html"}]}]}</script>
@@ -76,7 +86,7 @@
       <span class="tricolour tricolour--stack" aria-hidden="true"><span></span><span></span><span></span></span>
       10 – 11 April 2027 · New Delhi, India
     </span>
-    <span><strong><span data-days-left>180</span></strong> days to the summit · Early rate closes 31 Dec 2026 · <a href="contact.html">Secretariat</a></span>
+    <span><strong><span data-days-left>178</span></strong> days to the summit · Early rate closes 31 Dec 2026 · <a href="contact.html">Secretariat</a></span>
   </div>
 </div>
 
@@ -104,6 +114,8 @@
           <li><a href="charter.html#house-rule">The House Rule<span class="nav__note">Evidence tiers on every slide</span></a></li>
           <li><a href="books.html">Three Books<span class="nav__note">Unveiled from the stage</span></a></li>
           <li><a href="committee.html">Organising Committee<span class="nav__note">Patrons, chairs and secretariat</span></a></li>
+          <li><a href="organisers.html">The Organisers<span class="nav__note">IASRM, who convenes the summit</span></a></li>
+          <li><a href="collaborations.html">Collaborating Bodies<span class="nav__note">Convened with, and affiliations</span></a></li>
           <li><a href="venue.html">Venue &amp; Delhi<span class="nav__note">Getting there, staying, seeing the city</span></a></li>
         </ul>
       </div>
@@ -113,6 +125,8 @@
           <li><a href="programme.html">Scientific Programme<span class="nav__note">Eleven sessions across two days</span></a></li>
           <li><a href="rapid-fire.html">Rapid-Fire Rounds<span class="nav__note">Thirty talks of six minutes</span></a></li>
           <li><a href="workshops.html">Workshops &amp; Masterclasses<span class="nav__note">Hands-on, 9 April</span></a></li>
+          <li><a href="allied-health.html">Allied Health &amp; Nursing<span class="nav__note">A stream of its own, 10 April</span></a></li>
+          <li><a href="industry-workshop.html">Industry Symposia<span class="nav__note">Sponsored sessions, labelled</span></a></li>
           <li><a href="experience-lounge.html">The Experience Lounge<span class="nav__note">Try the tests you order</span></a></li>
           <li><a href="abstracts.html">Abstracts &amp; Submissions<span class="nav__note">Categories, rules, deadlines</span></a></li>
         </ul>
@@ -122,6 +136,7 @@
         <ul class="nav__menu" id="navmenu-3">
           <li><a href="faculty.html#national">National Faculty<span class="nav__note">From across India</span></a></li>
           <li><a href="faculty.html#international">International Faculty<span class="nav__note">Invited from abroad</span></a></li>
+          <li><a href="advisory-board.html">International Advisory Board<span class="nav__note">Councillors, by region</span></a></li>
           <li><a href="committee.html#scientific">Scientific Committee<span class="nav__note">Who reviews the programme</span></a></li>
         </ul>
       </div>
@@ -360,7 +375,24 @@
         <!-- PROGRAMME -->
         <section class="dashpanel" id="programme" aria-label="My programme">
           <h2 style="font-size:var(--step-3)">My programme</h2>
-          <p class="lede" style="margin-top:.75rem">Hall I and Hall II run in parallel on Day Two. Choose where you will be and the delegate app will remind you.</p>
+
+          <h3 style="font-size:var(--step-2);margin-top:1.5rem">My scientific commitments</h3>
+          <p class="lede" style="margin-top:.5rem">Everything you are down to deliver, in one list. Check it now — a clash is easy to fix in January and impossible on the day.</p>
+          <div class="table-wrap" style="margin-top:1.25rem">
+            <table class="table">
+              <caption>Speaking, chairing and judging commitments</caption>
+              <thead><tr><th scope="col">Role</th><th scope="col">Session</th><th scope="col">Day &amp; time</th><th scope="col">Hall</th><th scope="col">Slides due</th></tr></thead>
+              <tbody>
+                <tr><td colspan="5" class="small">You have no commitments on record. If you have accepted an invitation to speak, chair or judge and it is not listed here by 1 March 2027, write to <a href="mailto:abstracts@iasrmglobal.org">abstracts@iasrmglobal.org</a> — do not assume it is in hand.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="notice" style="margin-top:1.25rem">
+            <div><strong class="notice__title">If you are presenting</strong>Final slides are due <strong>25 March 2027</strong>, on the supplied template with the evidence tier placed on every slide that makes an empirical claim. Presenting authors must be registered delegates by 28 February 2027 or the slot is released. <a href="charter.html#house-rule">The house rule</a> · <a href="downloads.html">Slide template</a>.</div>
+          </div>
+
+          <h3 style="font-size:var(--step-2);margin-top:2.25rem">Where you will be</h3>
+          <p class="lede" style="margin-top:.5rem">Hall I and Hall II run in parallel on Day Two. Choose where you will be and the delegate app will remind you.</p>
           <div class="grid grid--2" style="margin-top:1.5rem">
             <div class="card card--flat"><p class="card__meta">Day One · Sat 10 April</p><p class="card__body">Sessions I–VI, Panel I, and the Longevity 40 Honours Ceremony &amp; Gala Dinner from 18:15.</p><p style="margin-top:.6rem"><a class="linkarrow" href="programme.html">See Day One</a></p></div>
             <div class="card card--flat"><p class="card__meta">Day Two · Sun 11 April</p><p class="card__body">Sessions VII–XI in Hall I, five rapid-fire rounds in Hall II, Panels II and III, and the adoption of the Charter.</p><p style="margin-top:.6rem"><a class="linkarrow" href="rapid-fire.html">See Hall II</a></p></div>
@@ -438,6 +470,7 @@
           <li><a href="charter.html">The Charter</a></li>
           <li><a href="longevity-40.html">The Longevity 40</a></li>
           <li><a href="experience-lounge.html">Experience Lounge</a></li>
+          <li><a href="allied-health.html">Allied health &amp; nursing</a></li>
         </ul>
       </div>
 
@@ -456,11 +489,11 @@
       <div>
         <p class="foot__title">Secretariat</p>
         <ul class="foot__list">
-          <li>Organised by IASRM — International Association of Stemcell &amp; Regenerative Medicine</li>
+          <li><a href="organisers.html">Organised by IASRM</a> — International Association of Stemcell &amp; Regenerative Medicine</li>
           <li><a href="https://www.iasrmglobal.org" rel="noopener">www.iasrmglobal.org</a></li>
           <li><a href="mailto:info@iasrmglobal.org">info@iasrmglobal.org</a></li>
           <li><a href="https://wa.me/919810418415" rel="noopener">WhatsApp +91 98104 18415</a></li>
-          <li class="small" style="color:var(--cream-2);margin-top:.35rem">Title sponsor: AYUVA · With the Anti-Ageing Foundation (India) and the Entrepreneur Forum of India</li>
+          <li class="small" style="color:var(--cream-2);margin-top:.35rem">Title sponsor: AYUVA · <a href="collaborations.html">With the Anti-Ageing Foundation (India) and the Entrepreneur Forum of India</a></li>
         </ul>
       </div>
     </div>

@@ -287,6 +287,8 @@ strong,b{font-weight:600}
 .grid--aside{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:clamp(2rem,1rem + 3vw,3.25rem);align-items:start}
 .stack{display:flex;flex-direction:column;gap:1rem}
 .stack--sm{gap:.6rem}
+/* Pills and chips should hug their text, not stretch to the column width. */
+.stack--start{align-items:flex-start}
 .stack--lg{gap:1.75rem}
 .cluster{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center}
 .cluster--center{justify-content:center}
@@ -347,7 +349,10 @@ strong,b{font-weight:600}
   width:42px;height:42px;border-radius:50%;flex:none;
   background:var(--paper-gold);border:2px solid var(--gold);
   display:grid;place-items:center;
-  font-family:var(--font-display);font-weight:800;font-size:.82rem;color:var(--crimson);
+  font-family:var(--font-display);font-weight:800;font-size:.82rem;
+  /* Literal: the header is a dark surface, so var(--crimson) would resolve
+     to gold here and put gold on the cream disc. */
+  color:#8E2418;
   transition:transform .4s var(--ease-out);
 }
 .brand:hover .brand__mark{transform:rotate(-8deg) scale(1.05)}
@@ -531,7 +536,9 @@ strong,b{font-weight:600}
   display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;
   background:var(--maroon);color:var(--paper);font-size:.84rem;font-weight:500;letter-spacing:.03em;
 }
-.pill--gold{background:var(--gold);color:var(--ink)}
+/* Literal ink: a gold pill keeps a gold ground on any surface, so it must not
+   pick up a remapped --ink and end up cream-on-gold inside a dark frame. */
+.pill--gold{background:var(--gold);color:#2B1A0E}
 .pill--outline{background:none;border:1px solid var(--gold-dark);color:var(--crimson)}
 
 /* — Key / value list — */
@@ -929,15 +936,22 @@ strong,b{font-weight:600}
    main.js is deferred behind the GSAP CDN, so a blocked or slow CDN would
    otherwise leave a visitor staring at a full-screen panel forever.
    It is also pointer-events:none throughout, so it can never trap a click. */
-.preloader{
+/* The loader is OFF by default and opted into once per session by the inline
+   head script. Three reasons it is built this way round:
+   - This is a 28-page static site. A curtain on every navigation would mean
+     a wait on every click, for content that is already there.
+   - It fails safe. If the script, sessionStorage or CSS animations are
+     unavailable, the page simply shows — rather than being covered by a panel
+     that nothing is left to remove.
+   - It never blocks input: pointer-events are off throughout. */
+.preloader{display:none}
+.show-loader .preloader{
   position:fixed;inset:0;z-index:2000;background:var(--maroon-deep);
   display:grid;place-items:center;pointer-events:none;
-  animation:preloaderOut .45s var(--ease) .85s forwards;
+  animation:preloaderOut .4s var(--ease) .55s forwards;
 }
 @keyframes preloaderOut{to{opacity:0;visibility:hidden}}
-/* JS, when it does run, just brings the same fade forward. */
-.preloader.is-done{animation-delay:0s}
-@media (prefers-reduced-motion:reduce){.preloader{display:none}}
+@media (prefers-reduced-motion:reduce){.show-loader .preloader{display:none}}
 .preloader__seal{width:92px;height:92px;animation:sealSpin 2.4s linear infinite}
 .preloader__seal circle{fill:none;stroke:var(--gold);stroke-width:1.5;opacity:.75}
 .preloader__word{
